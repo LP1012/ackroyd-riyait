@@ -328,3 +328,7 @@ TSWLatexianTemp*
 # CMAKE build 
 build*/
 
+# Doxygen build stuff
+docs/html*/
+docs/latex*/
+
