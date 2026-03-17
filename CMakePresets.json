@@ -1,0 +1,103 @@
+{
+  "version":6,
+
+  "configurePresets":[
+    {
+      "name": "basic",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "RCANA_ENABLE_TESTS":{"type": "BOOL", "value": "ON"},
+        "RCANA_BUILD_DOXYGEN":{"type": "BOOL", "value": "OFF"},
+        "CMAKE_EXPORT_COMPILE_COMMANDS":{"type": "BOOL", "value": "ON"}
+      }
+    },
+    {
+      "name": "full",
+      "inherits": "basic",
+      "cacheVariables": {
+        "RCANA_BUILD_DOXYGEN":{"type": "BOOL", "value": "ON"}
+      }
+    },
+    {
+      "name": "release",
+      "inherits": "basic",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE":{"type": "STRING","value": "Release"}
+      }
+    },
+    {
+      "name": "sanitize",
+      "inherits": "basic",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE":{"type": "STRING","value": "RelWithDebInfo"},
+        "RCANA_ENABLE_SANITIZERS":{"type": "BOOL","value": "ON"}
+      }
+    },
+    {
+      "name": "debug",
+      "inherits": "basic",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE":{"type": "STRING","value": "Debug"}
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "basic",
+      "jobs": 0,
+      "configurePreset": "basic"
+    },
+    {
+      "name": "full",
+      "inherits": "basic",
+      "configurePreset": "full"
+    },
+    {
+      "name": "release",
+      "inherits": "basic",
+      "configurePreset": "release"
+    },
+    {
+      "name": "sanitize",
+      "inherits": "basic",
+      "configurePreset": "sanitize"
+    },
+    {
+      "name": "debug",
+      "inherits": "basic",
+      "configurePreset": "debug"
+    }
+  ],
+  "testPresets": [
+    {
+      "name":"basic",
+      "configurePreset": "basic",
+      "output":{"outputOnFailure":true},
+      "execution":{"noTestsAction": "error", "stopOnFailure": false}
+    },
+    {
+      "name": "full",
+      "inherits": "basic",
+      "configurePreset": "full"
+    },
+    {
+      "name": "release",
+      "inherits": "basic",
+      "configurePreset": "release"
+    },
+    {
+      "name": "sanitize",
+      "inherits": "basic",
+      "configurePreset": "sanitize",
+      "environment": {
+        "ASAN_OPTIONS":"strict_string_checks=1:check_initialization_order=1:color=always",
+        "UBSAN_OPTIONS": "print_stacktrace=1"
+      }
+    },
+    {
+      "name": "debug",
+      "inherits": "basic",
+      "configurePreset": "debug"
+    }
+  ]
+}
