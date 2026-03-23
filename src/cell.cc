@@ -1,7 +1,7 @@
 #include "cell.h"
 
 namespace ar {
-Cell::Cell(const const double xmin, const double xmax, const double ymin,
+Cell::Cell(const double xmin, const double xmax, const double ymin,
            const double ymax, const Material& material)
     : xmin_(xmin),
       xmax_(xmax),

@@ -11,7 +11,9 @@ class RectangularRegion {
  public:
   RectangularRegion(const Material& material, const double xmin,
                     const double xmax, const double ymin, const double ymax,
-                    const unsigned int nx, const unsigned int ny);
+                    const int nx, const int ny);
+
+  std::vector<Cell> cells() const { return cells_; }
 
  private:
   const Material& material_;
@@ -19,8 +21,8 @@ class RectangularRegion {
   const double xmax_;
   const double ymin_;
   const double ymax_;
-  const unsigned int nx_;
-  const unsigned int ny_;
+  const int nx_;
+  const int ny_;
 
   std::vector<Cell> cells_;
   void CreateCells();
