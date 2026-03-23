@@ -7,14 +7,20 @@
 namespace ar {
 class Cell {
  public:
-  Cell(const Point cell_center, const double dx, const double dy,
-       const Material& material);
+  Cell(const double xmin, const double xmax, const double ymin,
+       const double ymax, const Material& material);
 
  private:
   const Point cell_center_;
+  const double xmin_;
+  const double xmax_;
+  const double ymin_;
+  const double ymax_;
   const double dx_;
   const double dy_;
   const Material& material_;
+
+  Point ComputeCellCenter();
 };
 }  // namespace ar
 
