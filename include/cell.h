@@ -23,6 +23,7 @@ class Cell {
   void SetWestFlux() { west_flux_ = 2 * center_flux_ - east_flux_; }
   void SetNorthFlux() { north_flux_ = 2 * center_flux_ - south_flux_; }
   void SetSouthFlux() { south_flux_ = 2 * center_flux_ - north_flux_; }
+  void SetCenterFlux(const double center_flux) { center_flux_ = center_flux; }
 
  private:
   const Point cell_center_;
