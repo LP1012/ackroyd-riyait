@@ -41,6 +41,27 @@ std::vector<std::vector<double>> Simulation::SweepNorthEast(
   return scalar_flux_contribution;
 }
 
+std::vector<std::vector<double>> Simulation::SweepNorthWest(
+    const double quadrature_weight, const double x_cosine,
+    const double y_cosine) {
+  int n_cols = cells_[0].size();
+  int n_rows = cells_.size();
+
+  std::vector<std::vector<double>> scalar_flux_contribution(
+      n_rows, std::vector<double>(n_cols, 0.0));  // preallocates to all zeros
+
+  for (auto j = 0; j < n_rows; j++) {
+    for (auto i = n_cols - 1; i > -1; i--) {
+      double cell_center_flux = SweepStep(x_cosine, y_cosine, cells_[i][j]);
+      scalar_flux_contribution[i][j] += cell_center_flux * quadrature_weight;
+      cells_[i][j].SetCenterFlux(cell_center_flux);
+      cells_[i][j].SetWestFlux();
+      cells_[i][j].SetNorthFlux();
+    }
+  }
+  return scalar_flux_contribution;
+}
+
 double Simulation::SweepStep(const double x_cosine, const double y_cosine,
                              Cell &cell) {
   double east_west_flux = cell.west_flux();
