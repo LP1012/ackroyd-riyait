@@ -43,6 +43,9 @@ class Simulation {
   std::vector<std::vector<Cell>> SortCells(
       const std::vector<Cell>& flattened_cells);
 
+  int n_columns_;  /// Number of columns in 2D vector of cells
+  int n_rows_;     /// Number of rows in 2D vector of cells
+
   /**
    * @brief Carries out transport sweep from Southwest corner to Northeast.
    * Returns a 2D vector of SCALAR flux contributions by multiplying the
