@@ -21,10 +21,26 @@ std::vector<std::vector<Cell>> Simulation::SortCells(
 
 double Simulation::NorthEastSweepStep(const double x_cosine,
                                       const double y_cosine, Cell &cell) {
+  double x_sign = x_cosine > 0 ? 1.0 : -1.0;
+  double y_sign = y_cosine > 0 ? 1.0 : -1.0;
   double numerator = cell.cell_source() +
-                     2.0 * x_cosine / cell.dx() * cell.west_flux() +
-                     2.0 * y_cosine / cell.dy() * cell.south_flux();
-  double denominator = 2.0 * x_cosine / cell.dx() + 2.0 * y_cosine / cell.dy() +
+                     x_sign * 2.0 * x_cosine / cell.dx() * cell.west_flux() +
+                     y_sign * 2.0 * y_cosine / cell.dy() * cell.south_flux();
+  double denominator = x_sign * 2.0 * x_cosine / cell.dx() +
+                       y_sign * 2.0 * y_cosine / cell.dy() +
+                       cell.material().total_xs();
+  return numerator / denominator;
+}
+
+double Simulation::NorthWestSweepStep(const double x_cosine,
+                                      const double y_cosine, Cell &cell) {
+  double x_sign = x_cosine > 0 ? 1.0 : -1.0;
+  double y_sign = y_cosine > 0 ? 1.0 : -1.0;
+  double numerator = cell.cell_source() +
+                     x_sign * 2.0 * x_cosine / cell.dx() * cell.east_flux() +
+                     y_sign * 2.0 * y_cosine / cell.dy() * cell.south_flux();
+  double denominator = x_sign * 2.0 * x_cosine / cell.dx() +
+                       y_sign * 2.0 * y_cosine / cell.dy() +
                        cell.material().total_xs();
   return numerator / denominator;
 }
