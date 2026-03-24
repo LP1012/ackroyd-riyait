@@ -58,7 +58,7 @@ class Simulation {
       const double y_cosine);
 
   /**
-   * @brief Carries out transport sweep from Southwest corner to Northeast.
+   * @brief Carries out transport sweep from Southeast corner to Northwest.
    * Returns a 2D vector of SCALAR flux contributions by multiplying the
    * cell-centered angular flux by the quadrature weight
    *
