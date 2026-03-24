@@ -18,4 +18,14 @@ std::vector<Cell> Simulation::PullCellsFromRegions() {
 
 std::vector<std::vector<Cell>> Simulation::SortCells(
     const std::vector<Cell> &flattened_cells) {}
+
+double Simulation::NorthEastSweepStep(const double x_cosine,
+                                      const double y_cosine, Cell &cell) {
+  double numerator = cell.cell_source() +
+                     2.0 * x_cosine / cell.dx() * cell.west_flux() +
+                     2.0 * y_cosine / cell.dy() * cell.south_flux();
+  double denominator = 2.0 * x_cosine / cell.dx() + 2.0 * y_cosine / cell.dy() +
+                       cell.material().total_xs();
+  return numerator / denominator;
+}
 }  // namespace ar
