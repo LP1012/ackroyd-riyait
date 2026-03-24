@@ -36,6 +36,7 @@ std::vector<std::vector<double>> Simulation::SweepNorthEast(
       scalar_flux_contribution[i][j] += cell_center_flux * quadrature_weight;
       cells_[i][j].SetCenterFlux(cell_center_flux);
       cells_[i][j].SetEastFlux();
+      cells_[i][j].SetNorthFlux();
     }
   }
   return scalar_flux_contribution;
