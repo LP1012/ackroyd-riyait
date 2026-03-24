@@ -1,5 +1,7 @@
 #include "simulation.h"
 
+#include <cmath>
+
 namespace ar {
 Simulation::Simulation(const std::vector<RectangularRegion> &regions,
                        const double si_tolerance)
@@ -19,29 +21,21 @@ std::vector<Cell> Simulation::PullCellsFromRegions() {
 std::vector<std::vector<Cell>> Simulation::SortCells(
     const std::vector<Cell> &flattened_cells) {}
 
-double Simulation::NorthEastSweepStep(const double x_cosine,
-                                      const double y_cosine, Cell &cell) {
-  double x_sign = x_cosine > 0 ? 1.0 : -1.0;
-  double y_sign = y_cosine > 0 ? 1.0 : -1.0;
+double Simulation::SweepStep(const double x_cosine, const double y_cosine,
+                             Cell &cell) {
+  double east_west_flux = cell.west_flux();
+  double north_south_flux = cell.south_flux();
+  if (x_cosine < 0) east_west_flux = cell.east_flux();
+
+  if (y_cosine < 0) north_south_flux = cell.north_flux();
+
   double numerator = cell.cell_source() +
-                     x_sign * 2.0 * x_cosine / cell.dx() * cell.west_flux() +
-                     y_sign * 2.0 * y_cosine / cell.dy() * cell.south_flux();
-  double denominator = x_sign * 2.0 * x_cosine / cell.dx() +
-                       y_sign * 2.0 * y_cosine / cell.dy() +
+                     2.0 * std::abs(x_cosine) / cell.dx() * east_west_flux +
+                     2.0 * std::abs(y_cosine) / cell.dy() * north_south_flux;
+  double denominator = 2.0 * std::abs(x_cosine) / cell.dx() +
+                       2.0 * std::abs(y_cosine) / cell.dy() +
                        cell.material().total_xs();
   return numerator / denominator;
 }
 
-double Simulation::NorthWestSweepStep(const double x_cosine,
-                                      const double y_cosine, Cell &cell) {
-  double x_sign = x_cosine > 0 ? 1.0 : -1.0;
-  double y_sign = y_cosine > 0 ? 1.0 : -1.0;
-  double numerator = cell.cell_source() +
-                     x_sign * 2.0 * x_cosine / cell.dx() * cell.east_flux() +
-                     y_sign * 2.0 * y_cosine / cell.dy() * cell.south_flux();
-  double denominator = x_sign * 2.0 * x_cosine / cell.dx() +
-                       y_sign * 2.0 * y_cosine / cell.dy() +
-                       cell.material().total_xs();
-  return numerator / denominator;
-}
 }  // namespace ar
