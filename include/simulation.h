@@ -44,6 +44,110 @@ class Simulation {
       const std::vector<Cell>& flattened_cells);
 
   /**
+   * @brief Carries out transport sweep from Southwest corner to Northeast.
+   * Returns a 2D vector of SCALAR flux contributions by multiplying the
+   * cell-centered angular flux by the quadrature weight
+   *
+   * @param quadrature_weight
+   * @param x_cosine
+   * @param y_cosine
+   * @return std::vector<std::vector<double>>
+   */
+  std::vector<std::vector<double>> SweepNorthEast(
+      const double quadrature_weight, const double x_cosine,
+      const double y_cosine);
+
+  /**
+   * @brief Evaluate the cell-centered angular flux moving in direction
+   * northeast
+   *
+   * @param x_cosine
+   * @param y_cosine
+   * @param cell
+   * @return double
+   */
+  double NorthEastSweepStep(const double x_cosine, const double y_cosine,
+                            Cell& cell);
+
+  /**
+   * @brief Carries out transport sweep from Southwest corner to Northeast.
+   * Returns a 2D vector of SCALAR flux contributions by multiplying the
+   * cell-centered angular flux by the quadrature weight
+   *
+   * @param quadrature_weight
+   * @param x_cosine
+   * @param y_cosine
+   * @return std::vector<std::vector<double>>
+   */
+  std::vector<std::vector<double>> SweepNorthWest(
+      const double quadrature_weight, const double x_cosine,
+      const double y_cosine);
+
+  /**
+   * @brief Evaluate the cell-centered angular flux moving in direction
+   * northwest
+   *
+   * @param x_cosine
+   * @param y_cosine
+   * @param cell
+   * @return double
+   */
+  double NorthWestSweepStep(const double x_cosine, const double y_cosine,
+                            Cell& cell);
+
+  /**
+   * @brief Carries out transport sweep from Northwest corner to Southeast.
+   * Returns a 2D vector of SCALAR flux contributions by multiplying the
+   * cell-centered angular flux by the quadrature weight
+   *
+   * @param quadrature_weight
+   * @param x_cosine
+   * @param y_cosine
+   * @return std::vector<std::vector<double>>
+   */
+  std::vector<std::vector<double>> SweepSouthEast(
+      const double quadrature_weight, const double x_cosine,
+      const double y_cosine);
+
+  /**
+   * @brief Evaluate the cell-centered angular flux moving in direction
+   * southeast
+   *
+   * @param x_cosine
+   * @param y_cosine
+   * @param cell
+   * @return double
+   */
+  double SouthEastSweepStep(const double x_cosine, const double y_cosine,
+                            Cell& cell);
+
+  /**
+   * @brief Carries out transport sweep from Northeast corner to Southwest.
+   * Returns a 2D vector of SCALAR flux contributions by multiplying the
+   * cell-centered angular flux by the quadrature weight
+   *
+   * @param quadrature_weight
+   * @param x_cosine
+   * @param y_cosine
+   * @return std::vector<std::vector<double>>
+   */
+  std::vector<std::vector<double>> SweepSouthWest(
+      const double quadrature_weight, const double x_cosine,
+      const double y_cosine);
+
+  /**
+   * @brief Evaluate the cell-centered angular flux moving in direction
+   * southwest
+   *
+   * @param x_cosine
+   * @param y_cosine
+   * @param cell
+   * @return double
+   */
+  double SouthWestSweepStep(const double x_cosine, const double y_cosine,
+                            Cell& cell);
+
+  /**
    * @brief Exports results to a CSV output file for postprocessing
    *
    */
