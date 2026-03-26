@@ -1,5 +1,6 @@
 #include "simulation.h"
 
+#include <algorithm>
 #include <cmath>
 
 namespace ar {
@@ -24,13 +25,10 @@ std::vector<std::vector<Cell>> Simulation::SortCells(
     const std::vector<Cell>& flattened_cells) {
   std::vector<std::vector<Cell>> cells_;
 
-  for (auto j = 0; j < n_columns_; j++) {
-    std::vector<Cell> temp_;
-    for (auto i = 0; i < n_rows_; i++) {
-      temp_.push_back(flattened_cells[n_columns_ * i + j]);
-    }
-    cells_.push_back(temp_);
-  }
+  std::sort(flattened_cells.begin(), flattened_cells.end(),
+            [](const Cell& a, const Cell& b) {
+              return a.cell_center().X() < b.cell_center().X();
+            });
 }
 
 std::vector<std::vector<double>> Simulation::SweepNorthEast(

@@ -17,6 +17,7 @@ class Cell {
   double east_flux() const { return east_flux_; }
   double dx() const { return dx_; }
   double dy() const { return dy_; }
+  Point cell_center() const { return cell_center_; }
   Material material() const { return material_; }
 
   void SetEastFlux() { east_flux_ = 2 * center_flux_ - west_flux_; }
