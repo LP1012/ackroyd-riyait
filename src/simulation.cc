@@ -3,7 +3,7 @@
 #include <cmath>
 
 namespace ar {
-Simulation::Simulation(const std::vector<RectangularRegion> &regions,
+Simulation::Simulation(const std::vector<RectangularRegion>& regions,
                        const double si_tolerance)
     : regions_(regions), si_tolerance_(si_tolerance) {
   std::vector<Cell> flattened_cells = PullCellsFromRegions();
@@ -14,14 +14,24 @@ Simulation::Simulation(const std::vector<RectangularRegion> &regions,
 
 std::vector<Cell> Simulation::PullCellsFromRegions() {
   std::vector<Cell> flattened_cells;
-  for (auto &region : regions_) {
-    for (auto &cell : region.cells()) flattened_cells.push_back(cell);
+  for (auto& region : regions_) {
+    for (auto& cell : region.cells()) flattened_cells.push_back(cell);
   }
   return flattened_cells;
 }
 
 std::vector<std::vector<Cell>> Simulation::SortCells(
-    const std::vector<Cell> &flattened_cells) {}
+    const std::vector<Cell>& flattened_cells) {
+  std::vector<std::vector<Cell>> cells_;
+
+  for (auto j = 0; j < n_columns_; j++) {
+    std::vector<Cell> temp_;
+    for (auto i = 0; i < n_rows_; i++) {
+      temp_.push_back(flattened_cells[n_columns_ * i + j]);
+    }
+    cells_.push_back(temp_);
+  }
+}
 
 std::vector<std::vector<double>> Simulation::SweepNorthEast(
     const double quadrature_weight, const double x_cosine,
@@ -100,7 +110,7 @@ std::vector<std::vector<double>> Simulation::SweepSouthWest(
 }
 
 double Simulation::SweepStep(const double x_cosine, const double y_cosine,
-                             Cell &cell) {
+                             Cell& cell) {
   double east_west_flux = cell.west_flux();
   double north_south_flux = cell.south_flux();
   if (x_cosine < 0) east_west_flux = cell.east_flux();
