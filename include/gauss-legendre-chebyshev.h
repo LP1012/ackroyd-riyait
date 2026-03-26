@@ -1,6 +1,7 @@
 #ifndef ACKROYD_RIYAIT_GAUSS_LEGENDRE_CHEBYSHEV_H_
 #define ACKROYD_RIYAIT_GAUSS_LEGENDRE_CHEBYSHEV_H_
 
+#include <tuple>
 #include <vector>
 
 namespace ar {
@@ -11,17 +12,18 @@ class GaussLegendreChebyshev {
  private:
   const int n_ordinates_;
 
-  std::vector<double> x_direction_cosines;
-  std::vector<double> y_direction_cosines_;
+  std::vector<std::tuple<double, double, double>> mu_eta_weight_;
 
-  std::vector<double> chebyshev_abscissae_;
-  std::vector<double> chebyshev_weights_;
+  std::vector<double> x_direction_cosines_;
 
-  void SetChebyshevAbscissae(const int n_values);
-  double ComputeChebyshevAbscissa(const int number);
-  void SetChebyshevWeights();
+  std::vector<double> ComputeChebyshevAbscissae();
+  double ComputeChebyshevAbscissaValue(const int number);
+  std::vector<double> ComputeChebyshevWeights(
+      const std::vector<double> &chebyshev_abscissae);
 
-  void SetEta();
+  std::vector<double> ComputeYDirectionCosines(
+      const std::vector<double> &gl_abscissae,
+      const std::vector<double> &chebyshev_abscissae);
 };
 }  // namespace ar
 
