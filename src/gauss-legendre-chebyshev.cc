@@ -2,15 +2,24 @@
 
 #include <cmath>
 
+#include "gauss_legendre.h"
+
 namespace ar {
 
 GaussLegendreChebyshev::GaussLegendreChebyshev(const int n_ordinates)
     : n_ordinates_(n_ordinates) {
+  GaussLegendre gl_quad(n_ordinates_);
+  std::vector<double> gl_abscissae = gl_quad.GetAbscissae();
+  std::vector<double> gl_weights = gl_quad.GetWeights();
+
   std::vector<double> chebyshev_abscissae = ComputeChebyshevAbscissae();
   std::vector<double> chebyshev_weights =
       ComputeChebyshevWeights(chebyshev_abscissae);
+
   std::vector<double> etas =
-      ComputeYDirectionCosines(gl_abscissae, chebyshev_abscissae);
+      ComputeYDirectionCosines(gl_quad.GetAbscissae(), chebyshev_abscissae);
+
+  CreateTriples(gl_abscissae, gl_weights, etas, chebyshev_weights);
 }
 
 std::vector<double> GaussLegendreChebyshev::ComputeChebyshevAbscissae() {
@@ -41,10 +50,25 @@ std::vector<double> GaussLegendreChebyshev::ComputeYDirectionCosines(
   for (auto i = 0; i < n_ordinates_; i++) {
     double omega = M_PI * (chebyshev_abscissae[i] + 1.0);
     double eta =
-        std::sqrt(1.0 - std::pow(x_direction_cosines_[i], 2)) * std::cos(omega);
+        std::sqrt(1.0 - std::pow(gl_abscissae[i], 2)) * std::cos(omega);
     y_direction_cosines.push_back(eta);
   }
   return y_direction_cosines;
 }
 
+void GaussLegendreChebyshev::CreateTriples(
+    std::vector<double>& gl_abscissae, std::vector<double>& gl_weights,
+    std::vector<double>& etas, std::vector<double>& chebyshev_weights) {
+  for (auto i = 0; i < n_ordinates_; i++) {
+    for (auto j = 0; j < n_ordinates_; j++) {
+      GLCTriplet triplet;
+      double total_weight = gl_weights[i] * chebyshev_weights[j];
+      triplet.weight = total_weight;
+      triplet.mu = gl_abscissae[i];
+      triplet.eta = etas[j];
+
+      mu_eta_weight_.push_back(triplet);
+    };
+  }
+}
 }  // namespace ar
