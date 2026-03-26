@@ -29,6 +29,25 @@ std::vector<std::vector<Cell>> Simulation::SortCells(
             [](const Cell& a, const Cell& b) {
               return a.cell_center().X() < b.cell_center().X();
             });
+
+  std::vector<Cell> temp;
+  double curr_x = flattened_cells[0].cell_center().X();
+  for (auto& cell : flattened_cells) {
+    if (cell.cell_center().X() == curr_x) {
+      temp.push_back(cell);
+    } else if (cell.cell_center().X() > curr_x ||
+               &cell == &flattened_cells.back()) {
+      std::sort(temp.begin(), temp.end(), [](const Cell& a, const Cell& b) {
+        return a.cell_center().Y() < b.cell_center().Y();
+      });
+
+      cells_.push_back(temp);
+      temp.clear();
+      curr_x = cell.cell_center().X();
+      temp.push_back(cell);
+    }
+  }
+  return cells_;
 }
 
 std::vector<std::vector<double>> Simulation::SweepNorthEast(
