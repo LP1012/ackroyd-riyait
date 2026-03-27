@@ -12,6 +12,11 @@ int main() {
   Material material_2(0, 0);
   Material material_3(0.19, 0.2);
 
+  // // for non-scattering simulation, use:
+  // Material material_1(0, 0.8, 6.4);
+  // Material material_2(0, 0);
+  // Material material_3(0, 0.8);
+
   // Code is blocked from top row to bottom row. Vacuum boundary conditions are
   // assumed for all sides.
 
