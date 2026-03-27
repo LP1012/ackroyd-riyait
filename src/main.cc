@@ -32,5 +32,9 @@ int main() {
 
   RectangularRegion region_13(material_3, -10, 10, -10, -5, 2, 2);
 
+  std::vector<RectangularRegion> regions = {
+      region_1, region_2, region_3,  region_4,  region_5,  region_6, region_7,
+      region_8, region_9, region_10, region_11, region_12, region_13};
+
   return 0;
 }
