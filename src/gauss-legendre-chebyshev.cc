@@ -9,7 +9,7 @@ namespace ar {
 GaussLegendreChebyshev::GaussLegendreChebyshev(const int n_ordinates)
     : n_ordinates_(n_ordinates) {
   GaussLegendre gl_quad(n_ordinates_);
-  std::vector<double> gl_abscissae = gl_quad.GetAbscissae();
+  std::vector<double> gl_abscissae = gl_quad.GetAbscissas();
   std::vector<double> gl_weights = gl_quad.GetWeights();
 
   std::vector<double> chebyshev_abscissae = ComputeChebyshevAbscissae();
@@ -17,7 +17,7 @@ GaussLegendreChebyshev::GaussLegendreChebyshev(const int n_ordinates)
       ComputeChebyshevWeights(chebyshev_abscissae);
 
   std::vector<double> etas =
-      ComputeYDirectionCosines(gl_quad.GetAbscissae(), chebyshev_abscissae);
+      ComputeYDirectionCosines(gl_quad.GetAbscissas(), chebyshev_abscissae);
 
   CreateTriples(gl_abscissae, gl_weights, etas, chebyshev_weights);
 }
