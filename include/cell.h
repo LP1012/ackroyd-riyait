@@ -10,8 +10,6 @@ class Cell {
   Cell(const double xmin, const double xmax, const double ymin,
        const double ymax, const Material& material);
 
-  Point cell_center() const { return cell_center_; }
-
   double cell_source() const { return cell_source_; }
   double west_flux() const { return west_flux_; }
   double north_flux() const { return north_flux_; }
