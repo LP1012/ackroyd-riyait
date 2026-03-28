@@ -30,7 +30,7 @@ void RectangularRegion::CreateCells() {
 
     double cell_x_min = xmin_;
     for (auto i : std::views::iota(0, nx_)) {
-      cell_x_min += dx * static_cast<double>(j);
+      cell_x_min += dx * static_cast<double>(i);
       double cell_x_max = cell_x_min + dx;
       Cell new_cell = {cell_x_min, cell_x_max, cell_y_min, cell_y_max,
                        material_};
