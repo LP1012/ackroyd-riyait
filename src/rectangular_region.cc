@@ -1,5 +1,6 @@
 #include "rectangular_region.h"
 
+#include <cmath>
 #include <ranges>
 
 #include "point.h"
@@ -16,6 +17,20 @@ RectangularRegion::RectangularRegion(const Material& material,
       ymax_(ymax),
       nx_(nx),
       ny_(ny) {
+  CreateCells();
+}
+
+RectangularRegion::RectangularRegion(const Material& material,
+                                     const double xmin, const double xmax,
+                                     const double ymin, const double ymax,
+                                     const double target_delta)
+    : material_(material),
+      xmin_(xmin),
+      xmax_(xmax),
+      ymin_(ymin),
+      ymax_(ymax),
+      nx_(std::ceil((xmax - xmin) / target_delta)),
+      ny_(std::ceil((ymax - ymin) / target_delta)) {
   CreateCells();
 }
 

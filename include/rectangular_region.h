@@ -12,6 +12,9 @@ class RectangularRegion {
   RectangularRegion(const Material& material, const double xmin,
                     const double xmax, const double ymin, const double ymax,
                     const int nx, const int ny);
+  RectangularRegion(const Material& material, const double xmin,
+                    const double xmax, const double ymin, const double ymax,
+                    const double target_delta);
 
   std::vector<Cell> cells() const { return cells_; }
 
