@@ -1,6 +1,7 @@
 #ifndef ACKROYD_RIYAIT_SIMULATION_H_
 #define ACKROYD_RIYAIT_SIMULATION_H_
 
+#include <string>
 #include <vector>
 
 #include "rectangular_region.h"
@@ -16,6 +17,14 @@ class Simulation {
    */
   Simulation(const std::vector<RectangularRegion>& regions,
              const double si_tolerance = 1e-8);
+
+  /**
+   * @brief Exports all cells to a CSV file to be plotted and verify that the
+   * geometry is correct before proceeding
+   *
+   * @param output_name Output file name (defaults to "cell_geometry.csv")
+   */
+  void ExportCellsToCSV(const std::string output_name = "cell_geometry.csv");
 
  private:
   const std::vector<RectangularRegion>&
@@ -115,7 +124,7 @@ class Simulation {
    * @brief Exports results to a CSV output file for postprocessing.
    *
    */
-  void ExportToCSV();
+  void ExportResultsToCSV();
 };
 }  // namespace ar
 

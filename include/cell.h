@@ -36,7 +36,8 @@ class Cell {
   const double dy_;
   const Material& material_;
 
-  Point ComputeCellCenter();
+  Point ComputeCellCenter(const double xmin, const double dx, const double ymin,
+                          const double dy);
 
   double west_flux_ = 0;
   double north_flux_ = 0;
