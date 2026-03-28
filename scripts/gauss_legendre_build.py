@@ -1,3 +1,8 @@
+# This script is used to generate the input needed to fill the
+# `gauss_legendre.cc` file. It is not used during the build process
+# and is included for completion and in case additional
+# weights/abscissas are needed.
+
 from scipy.special import roots_legendre
 
 n_total = 100
