@@ -84,7 +84,7 @@ void Simulation::ExportCellsToCSV(const std::string output_name) {
     for (auto& cell : row)
       output_file << cell.cell_center().X() << "," << cell.cell_center().Y()
                   << "," << cell.dx() << "," << cell.dy() << ","
-                  << cell.material().id();
+                  << cell.material().id() << "\n";
   }
   output_file.close();
 }
