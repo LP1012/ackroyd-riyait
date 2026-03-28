@@ -1,27 +1,93 @@
 #include "simulation.h"
 
+#include <algorithm>
 #include <cmath>
+#include <fstream>
+#include <iostream>
+#include <numeric>
+#include <stdexcept>
 
 namespace ar {
-Simulation::Simulation(const std::vector<RectangularRegion> &regions,
+Simulation::Simulation(const std::vector<RectangularRegion>& regions,
                        const double si_tolerance)
     : regions_(regions), si_tolerance_(si_tolerance) {
   std::vector<Cell> flattened_cells = PullCellsFromRegions();
   cells_ = SortCells(flattened_cells);
   n_columns_ = cells_[0].size();
   n_rows_ = cells_.size();
+  ExportCellsToCSV();
 }
 
 std::vector<Cell> Simulation::PullCellsFromRegions() {
   std::vector<Cell> flattened_cells;
-  for (auto &region : regions_) {
-    for (auto &cell : region.cells()) flattened_cells.push_back(cell);
+  for (auto& region : regions_) {
+    for (auto& cell : region.cells()) flattened_cells.push_back(cell);
   }
   return flattened_cells;
 }
 
 std::vector<std::vector<Cell>> Simulation::SortCells(
-    const std::vector<Cell> &flattened_cells) {}
+    const std::vector<Cell>& flattened_cells) {
+  // Sort all indices by X
+  std::vector<size_t> indices(flattened_cells.size());
+  std::iota(indices.begin(), indices.end(), 0);
+  std::sort(indices.begin(), indices.end(),
+            [&flattened_cells](size_t a, size_t b) {
+              return flattened_cells[a].cell_center().X() <
+                     flattened_cells[b].cell_center().X();
+            });
+
+  std::vector<std::vector<Cell>> cells;
+  std::vector<size_t> temp_indices;
+  double curr_x = flattened_cells[indices[0]].cell_center().X();
+
+  auto flush_group = [&]() {
+    // Sort temp_indices by Y, then copy-construct Cells into a new row
+    std::sort(temp_indices.begin(), temp_indices.end(),
+              [&flattened_cells](size_t a, size_t b) {
+                return flattened_cells[a].cell_center().Y() <
+                       flattened_cells[b].cell_center().Y();
+              });
+    std::vector<Cell> row;
+    for (size_t i : temp_indices) {
+      row.push_back(flattened_cells[i]);  // copy-constructs
+    }
+    cells.push_back(std::move(row));
+    temp_indices.clear();
+  };
+
+  for (size_t idx : indices) {
+    double x = flattened_cells[idx].cell_center().X();
+    if (x != curr_x) {
+      flush_group();
+      curr_x = x;
+    }
+    temp_indices.push_back(idx);
+  }
+  flush_group();  // handle the last group
+
+  return cells;
+}
+
+void Simulation::ExportCellsToCSV(const std::string output_name) {
+  std::ofstream output_file(output_name);
+
+  // Check if the file was opened successfully
+  if (!output_file.is_open()) {
+    throw std::runtime_error(
+        "Output file could not be opened in ExportCellsToCSV!");
+  }
+
+  output_file << "x_center,y_center,width,height,material_id" << "\n";
+
+  for (auto& row : cells_) {
+    for (auto& cell : row)
+      output_file << cell.cell_center().X() << "," << cell.cell_center().Y()
+                  << "," << cell.dx() << "," << cell.dy() << ","
+                  << cell.material().id() << "\n";
+  }
+  output_file.close();
+}
 
 std::vector<std::vector<double>> Simulation::SweepNorthEast(
     const double quadrature_weight, const double x_cosine,
@@ -100,7 +166,7 @@ std::vector<std::vector<double>> Simulation::SweepSouthWest(
 }
 
 double Simulation::SweepStep(const double x_cosine, const double y_cosine,
-                             Cell &cell) {
+                             Cell& cell) {
   double east_west_flux = cell.west_flux();
   double north_south_flux = cell.south_flux();
   if (x_cosine < 0) east_west_flux = cell.east_flux();

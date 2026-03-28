@@ -10,13 +10,14 @@ Cell::Cell(const double xmin, const double xmax, const double ymin,
       material_(material),
       dx_(xmax - xmin),
       dy_(ymax - ymin),
-      cell_center_(ComputeCellCenter()) {
+      cell_center_(ComputeCellCenter(xmin, xmax - xmin, ymin, ymax - ymin)) {
   cell_source_ = material_.IsotropicSource();  // initialize source value
 }
 
-Point Cell::ComputeCellCenter() {
-  double x_coord = xmin_ + dx_ / 2.0;
-  double y_coord = ymin_ + dy_ / 2.0;
+Point Cell::ComputeCellCenter(const double xmin, const double dx,
+                              const double ymin, const double dy) {
+  double x_coord = xmin + dx / 2.0;
+  double y_coord = ymin + dy / 2.0;
   return Point(x_coord, y_coord);
 }
 
