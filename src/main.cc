@@ -8,9 +8,9 @@ using namespace ar;
 
 int main() {
   // hard-code in the regions and materials for now
-  Material material_1(0.19, 0.2, 6.4);
-  Material material_2(0, 0);
-  Material material_3(0.19, 0.2);
+  Material material_1(1, 0.19, 0.2, 6.4);
+  Material material_2(2, 0, 0);
+  Material material_3(3, 0.19, 0.2);
 
   // // for non-scattering simulation, use:
   // Material material_1(0, 0.8, 6.4);
