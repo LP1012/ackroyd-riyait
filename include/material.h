@@ -6,8 +6,8 @@
 namespace ar {
 class Material {
  public:
-  Material(const double scattering_xs, const double total_xs,
-           const double source = 0, const int id);
+  Material(const int id, const double scattering_xs, const double total_xs,
+           const double source = 0);
 
   double IsotropicSource() const { return source_ / 4.0 / M_PI; }
   double scattering_xs() const { return scattering_xs_; }
@@ -15,10 +15,10 @@ class Material {
   int id() const { return id_; }
 
  private:
+  const int id_;
   const double scattering_xs_;
   const double total_xs_;
   const double source_;
-  const int id_;
 };
 }  // namespace ar
 
