@@ -2,6 +2,9 @@
 
 #include <algorithm>
 #include <cmath>
+#include <fstream>
+#include <iostream>
+#include <stdexcept>
 
 namespace ar {
 Simulation::Simulation(const std::vector<RectangularRegion>& regions,
@@ -48,6 +51,26 @@ std::vector<std::vector<Cell>> Simulation::SortCells(
     }
   }
   return cells_;
+}
+
+void Simulation::ExportCellsToCSV(const std::string output_name) {
+  std::ofstream output_file(output_name);
+
+  // Check if the file was opened successfully
+  if (!output_file.is_open()) {
+    throw std::runtime_error(
+        "Output file could not be opened in ExportCellsToCSV!");
+  }
+
+  output_file << "x_center,y_center,width,height,material_id" << "\n";
+
+  for (auto &row : cells_) {
+    for (auto &cell : row)
+      output_file << cell.cell_center().x() << "," << cell.cell_center().y()
+                  << "," << cell.dx() << "," << cell.dy() << ","
+                  << cell.material().id();
+  }
+  output_file.close();
 }
 
 std::vector<std::vector<double>> Simulation::SweepNorthEast(
