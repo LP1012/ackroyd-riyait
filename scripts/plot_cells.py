@@ -71,4 +71,4 @@ def plot_cells_with_material(csv_file):
 
 
 if __name__ == "__main__":
-    plot_cells_with_material("cells_test.csv")
+    plot_cells_with_material("cell_geometry.csv")
