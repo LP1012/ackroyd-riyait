@@ -27,6 +27,13 @@ class Cell {
   void SetSouthFlux() { south_flux_ = 2 * center_flux_ - north_flux_; }
   void SetCenterFlux(const double center_flux) { center_flux_ = center_flux; }
   void ClearScalarFlux() { scalar_flux_ = 0; }
+  void SetSource() {
+    cell_source_ = material_.IsotropicSource() +
+                   material_.scattering_xs() / 4.0 / M_PI * scalar_flux_;
+  }
+  void AddPartialScalarFlux(const double partial_flux_value) {
+    scalar_flux_ += partial_flux_value;
+  }
 
  private:
   const Point cell_center_;

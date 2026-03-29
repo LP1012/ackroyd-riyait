@@ -91,7 +91,15 @@ void Simulation::ExportCellsToCSV(const std::string output_name) {
   output_file.close();
 }
 
-void Simulation::Run() {}
+void Simulation::Run() {
+  // set all cell sources, reset all scalar flux values to 0
+  for (auto& cell_row : cells_) {
+    for (auto& cell : cell_row) {
+      cell.SetSource();
+      cell.ClearScalarFlux();
+    };
+  }
+}
 
 std::vector<std::vector<double>> Simulation::SweepNorthEast(
     const double quadrature_weight, const double x_cosine,
