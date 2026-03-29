@@ -23,13 +23,17 @@ Point Cell::ComputeCellCenter(const double xmin, const double dx,
   return Point(x_coord, y_coord);
 }
 
-void Cell::SetCellSource(const double cell_scalar_flux) {
-  cell_source_ = material_.scattering_xs() * cell_scalar_flux +
+void Cell::SetCellSource() {
+  cell_source_ = material_.scattering_xs() * scalar_flux_ +
                  material_.IsotropicSource();  // check this!!!
 }
 
+void Cell::AddPartialScalarFlux(const double partial_flux_value) {
+  scalar_flux_ += partial_flux_value;
+}
+
 double Cell::ScalarFluxL2Norm() {
-  double squared_value =
-      dx_ * dy_ * scalar_flux_ * scalar_flux_ return std::sqrt(squared_value);
+  double squared_value = dx_ * dy_ * scalar_flux_ * scalar_flux_;
+  return std::sqrt(squared_value);
 }
 }  // namespace ar

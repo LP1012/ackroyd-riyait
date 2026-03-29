@@ -27,13 +27,20 @@ class Cell {
   void SetSouthFlux() { south_flux_ = 2 * center_flux_ - north_flux_; }
   void SetCenterFlux(const double center_flux) { center_flux_ = center_flux; }
   void ClearScalarFlux() { scalar_flux_ = 0; }
-  void SetSource() {
-    cell_source_ = material_.IsotropicSource() +
-                   material_.scattering_xs() / 4.0 / M_PI * scalar_flux_;
-  }
-  void AddPartialScalarFlux(const double partial_flux_value) {
-    scalar_flux_ += partial_flux_value;
-  }
+
+  /**
+   * @brief Set the Cell source member using scalar flux and volumetric source
+   * information
+   *
+   */
+  void SetCellSource();
+
+  /**
+   * @brief Adds scalar flux contribution from single direction sweep
+   *
+   * @param partial_flux_value
+   */
+  void AddPartialScalarFlux(const double partial_flux_value);
 
   /**
    * @brief Computes and returns the discrete L2-norm of the scalar flux
@@ -62,8 +69,6 @@ class Cell {
   double center_flux_ = 0;
   double cell_source_ = 0;
   double scalar_flux_ = 0;
-
-  void SetCellSource(const double cell_scalar_flux);
 };
 }  // namespace ar
 
