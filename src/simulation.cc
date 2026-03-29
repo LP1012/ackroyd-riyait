@@ -91,6 +91,14 @@ void Simulation::ExportCellsToCSV(const std::string output_name) {
   output_file.close();
 }
 
+double Simulation::ScalarFluxL2Norm() {
+  double sum = 0;
+  for (auto& cell_row : cells_) {
+    for (auto& cell : cell_row) sum += cell.ScalarFluxL2();
+  }
+  return sum;
+}
+
 void Simulation::Run() {
   // set all cell sources, reset all scalar flux values to 0
   for (auto& cell_row : cells_) {

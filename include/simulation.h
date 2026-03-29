@@ -27,6 +27,13 @@ class Simulation {
    */
   void ExportCellsToCSV(const std::string output_name = "cell_geometry.csv");
 
+  /**
+   * @brief Computes the discrete L2 norm of the scalar flux
+   *
+   * @return double
+   */
+  double ScalarFluxL2Norm();
+
   void Run();
 
  private:
