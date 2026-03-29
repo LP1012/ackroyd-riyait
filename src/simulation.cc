@@ -98,7 +98,7 @@ void Simulation::ExportResultsToCSV(const std::string output_name) {
         "Output file could not be opened in ExportResultstoCSV!");
   }
 
-  output_file << "x_center,y_center,flux" << "\n";
+  output_file << "x_center,y_center,center_flux" << "\n";
 
   for (auto& row : cells_) {
     for (auto& cell : row)
