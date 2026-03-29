@@ -123,8 +123,9 @@ class Simulation {
   /**
    * @brief Exports results to a CSV output file for postprocessing.
    *
+   * @param output_name Output file name (defaults to "cell_fluxes.csv")
    */
-  void ExportResultsToCSV();
+  void ExportResultsToCSV(const std::string output_name = "cell_fluxes.csv");
 };
 }  // namespace ar
 
