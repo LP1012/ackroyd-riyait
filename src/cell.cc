@@ -1,5 +1,7 @@
 #include "cell.h"
 
+#include <cmath>
+
 namespace ar {
 Cell::Cell(const double xmin, const double xmax, const double ymin,
            const double ymax, const Material& material)
@@ -24,5 +26,10 @@ Point Cell::ComputeCellCenter(const double xmin, const double dx,
 void Cell::SetCellSource(const double cell_scalar_flux) {
   cell_source_ = material_.scattering_xs() * cell_scalar_flux +
                  material_.IsotropicSource();  // check this!!!
+}
+
+double Cell::ScalarFluxL2Norm() {
+  double squared_value =
+      dx_ * dy_ * scalar_flux_ * scalar_flux_ return std::sqrt(squared_value);
 }
 }  // namespace ar

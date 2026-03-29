@@ -35,6 +35,13 @@ class Cell {
     scalar_flux_ += partial_flux_value;
   }
 
+  /**
+   * @brief Computes and returns the discrete L2-norm of the scalar flux
+   *
+   * @return double
+   */
+  double ScalarFluxL2Norm();
+
  private:
   const Point cell_center_;
   const double xmin_;
