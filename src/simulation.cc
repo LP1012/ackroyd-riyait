@@ -99,6 +99,21 @@ void Simulation::Run() {
       cell.ClearScalarFlux();
     };
   }
+
+  // begin sweeps
+  for (auto& triplet : spherical_quadrature_.GetTriples()) {
+    if (triplet.mu > 0 && triplet.eta > 0)
+      SweepNorthEast(triplet);
+    else if (triplet.mu > 0 && triplet.eta < 0)
+      SweepSouthEast(triplet);
+    else if (triplet.mu < 0 && triplet.eta > 0)
+      SweepNorthWest(triplet);
+    else if (triplet.mu < 0 && triplet.eta < 0)
+      SweepSouthWest(triplet);
+    else
+      throw std::runtime_error(
+          "Direction of sweeping not able to be determined!");
+  }
 }
 
 void Simulation::SweepNorthEast(const GLCTriplet& glc_triplet) {
