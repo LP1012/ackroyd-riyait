@@ -89,7 +89,8 @@ void Simulation::ExportCellsToCSV(const std::string output_name) {
   output_file.close();
 }
 
-void Simulation::ExportResultsToCSV(const std::string output_name) {
+void Simulation::ExportResultsToCSV(const std::vector<std::vector<Cell>> cells,
+                                    const std::string output_name) {
   std::ofstream output_file(output_name);
 
   // Check if the file was opened successfully
@@ -100,7 +101,7 @@ void Simulation::ExportResultsToCSV(const std::string output_name) {
 
   output_file << "x_center,y_center,center_flux" << "\n";
 
-  for (auto& row : cells_) {
+  for (auto& row : cells) {
     for (auto& cell : row)
       output_file << cell.cell_center().X() << "," << cell.cell_center().Y()
                   << "," << cell.scalar_flux() << "\n";
