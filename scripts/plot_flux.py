@@ -40,7 +40,7 @@ def plot_cell_fluxes(csv_file):
     X, Y = np.meshgrid(np.array(list(xs)), np.array(list(ys)))
 
     # Plot mesh
-    ax.pcolormesh(X, Y, flux_mesh, shading='gouraud')
+    ax.pcolormesh(X, Y, flux_mesh, shading='gouraud', cmap='magma')
 
     # Labels
     ax.set_xlabel("X")
