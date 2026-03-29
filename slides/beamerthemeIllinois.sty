@@ -37,7 +37,7 @@
 \setbeamertemplate{frametitle}[default][center]
 % Removes the logo from the lower right so that we can place it less obtrusively
 \defbeamertemplate*{sidebar right}{uillinois theme}
-{ 
+{
   \vfill%
   \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
   \vskip2pt%
@@ -56,13 +56,13 @@
     \vbox{}\vskip-1ex%
     \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
     \begin{tabularx}{.95\@tempdima}{lXr}
-      \ifbeamer@nologo\insertframetitle&&\else\insertframetitle&&\insertlogo
+      \ifbeamer@nologo\insertframetitle &  & \else\insertframetitle &  & \insertlogo
       \fi
     \end{tabularx}\par%
     {%
       \ifx\insertframesubtitle\@empty%
-      \else%
-      {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+        \else%
+        {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
       \fi
     }%
     \vskip-1ex%

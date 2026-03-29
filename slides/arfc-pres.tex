@@ -78,7 +78,8 @@
 \addtolength{\highlightheight}{\highlightmargin}
 \addtolength{\highlightdepth}{\highlightmargin}
 \addtolength{\highlightheight}{\highlightdepth}
-\newcommand*{\Highlight}{\rlap{\textcolor{HighlightBackground}{\rule[-\highlightdepth]{\linewidth}{\highlightheight}}}}
+\newcommand*{\Highlight}{\rlap{\textcolor{HighlightBackground}
+    {\rule[-\highlightdepth]{\linewidth}{\highlightheight}}}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%--------------------------------%%
 \begin{withoutheadline}
@@ -95,18 +96,19 @@
   \end{frame}
 }
 
-\section{Motivation}
-\subsection{Cat Behavior}
-\input{cat_behavior}
-\subsection{Cat Appearance}
-\input{cat_appearance}
-\subsection{Cat Math}
-\input{cat_math}
+\section{Background and Motivation}
+\subsection{Boltzmann Transport Equation}
+\input{s1_bte}
+\subsection{Problem Description}
+\input{s2_ar_problem}
 \section{Methods}
-\subsection{Illinois Colors}
-\input{fierce}
+\subsection{Discrete Ordinates}
+\input{s3_sn}
+\subsection{Code Structure}
+\input{s4_code_struct}
+
 \section{Conclusion}
-\input{conclusion}
+\input{s5_conclusion}
 \input{acks}
 %%--------------------------------%%
 %%--------------------------------%%
