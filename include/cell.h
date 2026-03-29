@@ -43,11 +43,12 @@ class Cell {
   void AddPartialScalarFlux(const double partial_flux_value);
 
   /**
-   * @brief Computes and returns the discrete L2-norm of the scalar flux
+   * @brief Computes and returns the discrete squared integral of the scalar
+   * flux
    *
    * @return double
    */
-  double ScalarFluxL2Norm();
+  double ScalarFluxL2();
 
  private:
   const Point cell_center_;
