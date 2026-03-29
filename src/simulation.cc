@@ -9,8 +9,10 @@
 
 namespace ar {
 Simulation::Simulation(const std::vector<RectangularRegion>& regions,
-                       const double si_tolerance)
-    : regions_(regions), si_tolerance_(si_tolerance) {
+                       const int n_ordinates, const double si_tolerance)
+    : regions_(regions),
+      spherical_quadrature_(GaussLegendreChebyshev(n_ordinates)),
+      si_tolerance_(si_tolerance) {
   std::vector<Cell> flattened_cells = PullCellsFromRegions();
   cells_ = SortCells(flattened_cells);
   n_columns_ = cells_[0].size();
@@ -88,6 +90,8 @@ void Simulation::ExportCellsToCSV(const std::string output_name) {
   }
   output_file.close();
 }
+
+void Simulation::Run() {}
 
 std::vector<std::vector<double>> Simulation::SweepNorthEast(
     const double quadrature_weight, const double x_cosine,

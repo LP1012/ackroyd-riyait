@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "gauss_legendre_chebyshev.h"
 #include "rectangular_region.h"
 
 namespace ar {
@@ -16,7 +17,7 @@ class Simulation {
    * @param si_tolerance Source iteration tolerance
    */
   Simulation(const std::vector<RectangularRegion>& regions,
-             const double si_tolerance = 1e-8);
+             const int n_ordinates, const double si_tolerance = 1e-8);
 
   /**
    * @brief Exports all cells to a CSV file to be plotted and verify that the
@@ -26,9 +27,14 @@ class Simulation {
    */
   void ExportCellsToCSV(const std::string output_name = "cell_geometry.csv");
 
+  void Run();
+
  private:
   const std::vector<RectangularRegion>&
-      regions_;                /// Vector of regions (passed by reference)
+      regions_;  /// Vector of regions (passed by reference)
+
+  /// @brief Gauss-Legendre-Chebyshev quadrature set
+  const GaussLegendreChebyshev spherical_quadrature_;
   const double si_tolerance_;  /// scattering iteration convergence tolerance
 
   std::vector<std::vector<Cell>> cells_;  /// 2D vector of cells
