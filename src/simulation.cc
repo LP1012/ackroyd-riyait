@@ -101,80 +101,56 @@ void Simulation::Run() {
   }
 }
 
-std::vector<std::vector<double>> Simulation::SweepNorthEast(
-    const double quadrature_weight, const double x_cosine,
-    const double y_cosine) {
-  std::vector<std::vector<double>> scalar_flux_contribution(
-      n_rows_,
-      std::vector<double>(n_columns_, 0.0));  // preallocates to all zeros
-
+void Simulation::SweepNorthEast(const GLCTriplet& glc_triplet) {
   for (auto j = 0; j < n_rows_; j++) {
     for (auto i = 0; i < n_columns_; i++) {
-      double cell_center_flux = SweepStep(x_cosine, y_cosine, cells_[i][j]);
-      scalar_flux_contribution[i][j] += cell_center_flux * quadrature_weight;
+      double cell_center_flux =
+          SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
+      cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
       cells_[i][j].SetCenterFlux(cell_center_flux);
       cells_[i][j].SetEastFlux();
       cells_[i][j].SetNorthFlux();
     }
   }
-  return scalar_flux_contribution;
 }
 
-std::vector<std::vector<double>> Simulation::SweepNorthWest(
-    const double quadrature_weight, const double x_cosine,
-    const double y_cosine) {
-  std::vector<std::vector<double>> scalar_flux_contribution(
-      n_rows_,
-      std::vector<double>(n_columns_, 0.0));  // preallocates to all zeros
-
+void Simulation::SweepNorthWest(const GLCTriplet& glc_triplet) {
   for (auto j = 0; j < n_rows_; j++) {
     for (auto i = n_columns_ - 1; i > -1; i--) {
-      double cell_center_flux = SweepStep(x_cosine, y_cosine, cells_[i][j]);
-      scalar_flux_contribution[i][j] += cell_center_flux * quadrature_weight;
+      double cell_center_flux =
+          SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
+      cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
       cells_[i][j].SetCenterFlux(cell_center_flux);
       cells_[i][j].SetWestFlux();
       cells_[i][j].SetNorthFlux();
     }
   }
-  return scalar_flux_contribution;
 }
 
-std::vector<std::vector<double>> Simulation::SweepSouthEast(
-    const double quadrature_weight, const double x_cosine,
-    const double y_cosine) {
-  std::vector<std::vector<double>> scalar_flux_contribution(
-      n_rows_,
-      std::vector<double>(n_columns_, 0.0));  // preallocates to all zeros
-
+void Simulation::SweepSouthEast(const GLCTriplet& glc_triplet) {
   for (auto j = n_rows_ - 1; j > -1; j--) {
     for (auto i = 0; i > n_columns_; i++) {
-      double cell_center_flux = SweepStep(x_cosine, y_cosine, cells_[i][j]);
-      scalar_flux_contribution[i][j] += cell_center_flux * quadrature_weight;
+      double cell_center_flux =
+          SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
+      cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
       cells_[i][j].SetCenterFlux(cell_center_flux);
       cells_[i][j].SetEastFlux();
       cells_[i][j].SetSouthFlux();
     }
   }
-  return scalar_flux_contribution;
 }
 
-std::vector<std::vector<double>> Simulation::SweepSouthWest(
-    const double quadrature_weight, const double x_cosine,
-    const double y_cosine) {
-  std::vector<std::vector<double>> scalar_flux_contribution(
-      n_rows_,
-      std::vector<double>(n_columns_, 0.0));  // preallocates to all zeros
-
+void Simulation::SweepSouthWest(const GLCTriplet& glc_triplet) {
   for (auto j = n_rows_ - 1; j > -1; j--) {
     for (auto i = n_columns_ - 1; i > -1; i--) {
-      double cell_center_flux = SweepStep(x_cosine, y_cosine, cells_[i][j]);
-      scalar_flux_contribution[i][j] += cell_center_flux * quadrature_weight;
+      double cell_center_flux =
+          SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
+      cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
       cells_[i][j].SetCenterFlux(cell_center_flux);
       cells_[i][j].SetWestFlux();
       cells_[i][j].SetSouthFlux();
     }
   }
-  return scalar_flux_contribution;
 }
 
 double Simulation::SweepStep(const double x_cosine, const double y_cosine,

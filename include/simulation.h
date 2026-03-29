@@ -66,56 +66,36 @@ class Simulation {
    * Returns a 2D vector of SCALAR flux contributions by multiplying the
    * cell-centered angular flux by the quadrature weight.
    *
-   * @param quadrature_weight
-   * @param x_cosine
-   * @param y_cosine
-   * @return std::vector<std::vector<double>>
+   * @param glc_triplet
    */
-  std::vector<std::vector<double>> SweepNorthEast(
-      const double quadrature_weight, const double x_cosine,
-      const double y_cosine);
+  void SweepNorthEast(const GLCTriplet& glc_triplet);
 
   /**
    * @brief Carries out transport sweep from Southeast corner to Northwest.
    * Returns a 2D vector of SCALAR flux contributions by multiplying the
    * cell-centered angular flux by the quadrature weight.
    *
-   * @param quadrature_weight
-   * @param x_cosine
-   * @param y_cosine
-   * @return std::vector<std::vector<double>>
+   * @param glc_triplet
    */
-  std::vector<std::vector<double>> SweepNorthWest(
-      const double quadrature_weight, const double x_cosine,
-      const double y_cosine);
+  void SweepNorthWest(const GLCTriplet& glc_triplet);
 
   /**
    * @brief Carries out transport sweep from Northwest corner to Southeast.
    * Returns a 2D vector of SCALAR flux contributions by multiplying the
    * cell-centered angular flux by the quadrature weight.
    *
-   * @param quadrature_weight
-   * @param x_cosine
-   * @param y_cosine
-   * @return std::vector<std::vector<double>>
+   * @param glc_triplet
    */
-  std::vector<std::vector<double>> SweepSouthEast(
-      const double quadrature_weight, const double x_cosine,
-      const double y_cosine);
+  void SweepSouthEast(const GLCTriplet& glc_triplet);
 
   /**
    * @brief Carries out transport sweep from Northeast corner to Southwest.
    * Returns a 2D vector of SCALAR flux contributions by multiplying the
    * cell-centered angular flux by the quadrature weight.
    *
-   * @param quadrature_weight
-   * @param x_cosine
-   * @param y_cosine
-   * @return std::vector<std::vector<double>>
+   * @param glc_triplet
    */
-  std::vector<std::vector<double>> SweepSouthWest(
-      const double quadrature_weight, const double x_cosine,
-      const double y_cosine);
+  void SweepSouthWest(const GLCTriplet& glc_triplet);
 
   /**
    * @brief Evaluates the cell-centered angular flux for a single cell.
