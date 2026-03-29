@@ -26,6 +26,13 @@ class Simulation {
    */
   void ExportCellsToCSV(const std::string output_name = "cell_geometry.csv");
 
+  /**
+   * @brief Exports results to a CSV output file for postprocessing.
+   *
+   * @param output_name Output file name (defaults to "cell_fluxes.csv")
+   */
+  void ExportResultsToCSV(const std::string output_name = "cell_fluxes.csv");
+
  private:
   const std::vector<RectangularRegion>&
       regions_;                /// Vector of regions (passed by reference)
@@ -120,11 +127,6 @@ class Simulation {
    * @return double
    */
   double SweepStep(const double x_cosine, const double y_cosine, Cell& cell);
-  /**
-   * @brief Exports results to a CSV output file for postprocessing.
-   *
-   */
-  void ExportResultsToCSV();
 };
 }  // namespace ar
 
