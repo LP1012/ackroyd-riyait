@@ -15,6 +15,7 @@ class Cell {
   double north_flux() const { return north_flux_; }
   double south_flux() const { return south_flux_; }
   double east_flux() const { return east_flux_; }
+  double scalar_flux() const { return scalar_flux_; }
   double dx() const { return dx_; }
   double dy() const { return dy_; }
   Point cell_center() const { return cell_center_; }
@@ -25,6 +26,7 @@ class Cell {
   void SetNorthFlux() { north_flux_ = 2 * center_flux_ - south_flux_; }
   void SetSouthFlux() { south_flux_ = 2 * center_flux_ - north_flux_; }
   void SetCenterFlux(const double center_flux) { center_flux_ = center_flux; }
+  void ClearScalarFlux() { scalar_flux_ = 0; }
 
  private:
   const Point cell_center_;
@@ -45,6 +47,7 @@ class Cell {
   double east_flux_ = 0;
   double center_flux_ = 0;
   double cell_source_ = 0;
+  double scalar_flux_ = 0;
 
   void SetCellSource(const double cell_scalar_flux);
 };
