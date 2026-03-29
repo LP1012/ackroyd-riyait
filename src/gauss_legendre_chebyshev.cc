@@ -1,4 +1,4 @@
-#include "gauss-legendre-chebyshev.h"
+#include "gauss_legendre_chebyshev.h"
 
 #include <cmath>
 
