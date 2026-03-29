@@ -95,7 +95,7 @@ void Simulation::Run() {
   // set all cell sources, reset all scalar flux values to 0
   for (auto& cell_row : cells_) {
     for (auto& cell : cell_row) {
-      cell.SetSource();
+      cell.SetCellSource();
       cell.ClearScalarFlux();
     };
   }
