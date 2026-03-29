@@ -113,6 +113,12 @@ class Simulation {
    * @return double
    */
   double SweepStep(const double x_cosine, const double y_cosine, Cell& cell);
+
+  /**
+   * @brief Sweep all cells over all directions
+   *
+   */
+  void SweepCells();
   /**
    * @brief Exports results to a CSV output file for postprocessing.
    *

@@ -100,15 +100,22 @@ double Simulation::ScalarFluxL2Norm() {
 }
 
 void Simulation::Run() {
-  // set all cell sources, reset all scalar flux values to 0
-  for (auto& cell_row : cells_) {
-    for (auto& cell : cell_row) {
-      cell.SetCellSource();
-      cell.ClearScalarFlux();
-    };
-  }
+  double relative_error = 1.0;  // starting dummy value
 
-  // begin sweeps
+  while (relative_error > si_tolerance_) {
+    // set all cell sources, reset all scalar flux values to 0
+    for (auto& cell_row : cells_) {
+      for (auto& cell : cell_row) {
+        cell.SetCellSource();
+        cell.ClearScalarFlux();
+      };
+    }
+
+    SweepCells();
+  }
+}
+
+void Simulation::SweepCells() {
   for (auto& triplet : spherical_quadrature_.GetTriples()) {
     if (triplet.mu > 0 && triplet.eta > 0)
       SweepNorthEast(triplet);
