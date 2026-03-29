@@ -103,7 +103,7 @@ void Simulation::ExportResultsToCSV(const std::string output_name) {
   for (auto& row : cells_) {
     for (auto& cell : row)
       output_file << cell.cell_center().X() << "," << cell.cell_center().Y()
-                  << "," << cell.cell_source() << "\n";
+                  << "," << cell.scalar_flux() << "\n";
   }
   output_file.close();
 }
