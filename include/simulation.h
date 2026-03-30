@@ -35,6 +35,12 @@ class Simulation {
   double ScalarFluxL2Norm();
 
   void Run();
+  /**
+   * @brief
+   *
+   * @param output_name Output file name(defaults to "cell_fluxes.csv")
+   */
+  void ExportResultsToCSV(const std::string output_name = "cell_fluxes.csv");
 
  private:
   const std::vector<RectangularRegion>&

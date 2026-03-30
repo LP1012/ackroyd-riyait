@@ -99,6 +99,25 @@ double Simulation::ScalarFluxL2Norm() {
   return sum;
 }
 
+void Simulation::ExportResultsToCSV(const std::string output_name) {
+  std::ofstream output_file(output_name);
+
+  // Check if the file was opened successfully
+  if (!output_file.is_open()) {
+    throw std::runtime_error(
+        "Output file could not be opened in ExportResultstoCSV!");
+  }
+
+  output_file << "x_center,y_center,center_flux" << "\n";
+
+  for (auto& row : cells_) {
+    for (auto& cell : row)
+      output_file << cell.cell_center().X() << "," << cell.cell_center().Y()
+                  << "," << cell.scalar_flux() << "\n";
+  }
+  output_file.close();
+}
+
 void Simulation::Run() {
   printf("Beginning simulation...\n");
   printf("  number of cells = %d\n", n_rows_ * n_columns_);
