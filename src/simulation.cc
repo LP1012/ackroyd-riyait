@@ -224,7 +224,7 @@ void Simulation::SweepNorthWest(const GLCTriplet& glc_triplet) {
 void Simulation::SweepSouthEast(const GLCTriplet& glc_triplet) {
   // printf("    Sweeping South East...");
   for (auto j = n_rows_ - 1; j > -1; j--) {
-    for (auto i = 0; i > n_columns_; i++) {
+    for (auto i = 0; i < n_columns_; i++) {
       Cell& current_cell = cells_[i][j];
 
       double cell_center_flux =
