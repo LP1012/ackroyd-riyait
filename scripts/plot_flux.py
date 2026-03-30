@@ -1,52 +1,41 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 import numpy as np
 
+
 def plot_cell_fluxes(csv_file):
-    # Load CSV
     df = pd.read_csv(csv_file)
 
-    # Required columns
     required_cols = {"x_center", "y_center", "center_flux"}
     if not required_cols.issubset(df.columns):
         raise ValueError(f"CSV must contain columns: {required_cols}")
-    
-    # Create plot
+
+    # Sort to guarantee consistent grid ordering
+    df = df.sort_values(["x_center", "y_center"])
+
+    xs = np.array(sorted(df["x_center"].unique()))
+    ys = np.array(sorted(df["y_center"].unique()))
+
+    # Pivot into a 2D array: rows=y, cols=x (what pcolormesh expects)
+    flux_mesh = df.pivot(
+        index="y_center", columns="x_center", values="center_flux"
+    ).values
+
+    X, Y = np.meshgrid(xs, ys)
+
     fig, ax = plt.subplots()
 
-    # Rebuild cell mesh with fluxes
-    xs = set()
-    ys = set()
-    flux_mesh = []
-    curr_x = df.iloc[0]["x_center"]
+    mesh = ax.pcolormesh(X, Y, flux_mesh, shading="gouraud", cmap="magma")
 
-    temp_row = []
-    for _, row in df.iterrows():
-        if row["x_center"] == curr_x:
-            temp_row.append(row["center_flux"])
-            xs.add(row["x_center"])
-            ys.add(row["y_center"])
-        else:
-            curr_x = row["x_center"]
-            flux_mesh.append(temp_row)
-            temp_row = []
+    # Add colorbar — this also confirms the value range at a glance
+    cbar = fig.colorbar(mesh, ax=ax)
+    cbar.set_label("Scalar Flux")
 
-            temp_row.append(row["center_flux"])
-            xs.add(row["x_center"])
-            ys.add(row["y_center"])
-
-    flux_mesh.append(temp_row)
-    X, Y = np.meshgrid(np.array(list(xs)), np.array(list(ys)))
-
-    # Plot mesh
-    ax.pcolormesh(X, Y, flux_mesh, shading='gouraud', cmap='magma')
-
-    # Labels
     ax.set_xlabel("X")
     ax.set_ylabel("Y")
     ax.set_title("Scalar Flux over Problem Domain")
 
+    plt.tight_layout()
     plt.show()
 
 
