@@ -25,7 +25,7 @@ def plot_cell_fluxes(csv_file):
 
     fig, ax = plt.subplots()
 
-    mesh = ax.pcolormesh(X, Y, flux_mesh, shading="gouraud", cmap="magma")
+    mesh = ax.pcolormesh(X, Y, flux_mesh, shading="nearest", cmap="magma")
 
     # Add colorbar — this also confirms the value range at a glance
     cbar = fig.colorbar(mesh, ax=ax)
