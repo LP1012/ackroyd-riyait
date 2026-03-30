@@ -121,6 +121,7 @@ void Simulation::ExportResultsToCSV(const std::string output_name) {
 void Simulation::Run() {
   printf("Beginning simulation...\n");
   printf("  number of cells = %d\n", n_rows_ * n_columns_);
+  printf("  dx, dy = %.4e, %.4e\n", cells_[0][0].dx(), cells_[0][0].dy());
   printf("  scattering source iteration tolerance = %.3e\n", si_tolerance_);
   printf("  number of ordinates per quadrature set = %d\n\n",
          spherical_quadrature_.n_ordinates());
@@ -147,6 +148,8 @@ void Simulation::ScatteringIteration() {
     count++;
     old_scalar_flux_l2 = new_scalar_flux_l2;
   }
+  printf("\nSimulation complete.\n\n");
+  printf("Final L2-norm of scalar flux: %.4e\n\n", old_scalar_flux_l2);
 }
 
 void Simulation::InitializeCells() {
