@@ -39,54 +39,6 @@ class GaussLegendreChebyshev {
 
   std::vector<GLCTriplet>
       mu_eta_weight_;  /// vector of GLCTriplets containing quadrature info
-
-  /**
-   * @brief Computes the Gauss-Chebyshev abscissae on 0 to 2pi
-   *
-   * @return std::vector<double>
-   */
-  std::vector<double> ComputeChebyshevAbscissae();
-
-  /**
-   * @brief Computes single Gauss-Chebyshev abscissa value given a number of the
-   * total to be generated
-   *
-   * @param number
-   * @return double
-   */
-  double ComputeChebyshevAbscissaValue(const int number);
-
-  /**
-   * @brief Computes Gauss-Chebyshev weights
-   *
-   * @param chebyshev_abscissae
-   * @return std::vector<double>
-   */
-  std::vector<double> ComputeChebyshevWeights(
-      const std::vector<double> &chebyshev_abscissae);
-
-  /**
-   * @brief Computes y-direction cosine values ("eta" values)
-   *
-   * @param gl_abscissae Gauss-Legendre abscissae
-   * @param chebyshev_abscissae Gauss-Chebyshev abscissae
-   * @return std::vector<double>
-   */
-  std::vector<double> ComputeYDirectionCosines(
-      const std::vector<double> &gl_abscissae,
-      const std::vector<double> &chebyshev_abscissae);
-
-  /**
-   * @brief Create a GLCTriplets
-   *
-   * @param gl_abscissae Gauss-Legendre abscissae
-   * @param gl_weights Gauss-Legendre weights
-   * @param etas y-direction cosine values
-   * @param chebyshev_weights Gauss-Chebyshev weights
-   */
-  void CreateTriples(std::vector<double> &gl_abscissae,
-                     std::vector<double> &gl_weights, std::vector<double> &etas,
-                     std::vector<double> &chebyshev_weights);
 };
 }  // namespace ar
 
