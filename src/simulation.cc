@@ -134,7 +134,7 @@ void Simulation::ScatteringIteration() {
   double old_scalar_flux_l2 = ScalarFluxL2Norm();
 
   unsigned int count = 1;
-  while (relative_error > si_tolerance_ && count <= 50) {
+  while (relative_error > si_tolerance_ && count <= 5) {
     InitializeCells();
 
     SweepCells();
@@ -154,7 +154,6 @@ void Simulation::InitializeCells() {
     for (auto& cell : cell_row) {
       cell.SetCellSource();
       cell.ClearScalarFlux();
-      cell.ResetBoundaryFluxes();
     };
   }
 }
@@ -162,6 +161,9 @@ void Simulation::InitializeCells() {
 void Simulation::SweepCells() {
   for (auto& triplet : spherical_quadrature_.GetTriples()) {
     // printf("    mu = %.4f, eta = %.4f\n", triplet.mu, triplet.eta);
+    for (auto& cell_row : cells_) {
+      for (auto& cell : cell_row) cell.ResetBoundaryFluxes();
+    }
     if (triplet.mu > 0 && triplet.eta > 0)
       SweepNorthEast(triplet);
     else if (triplet.mu > 0 && triplet.eta < 0)
@@ -180,12 +182,18 @@ void Simulation::SweepNorthEast(const GLCTriplet& glc_triplet) {
   // printf("    Sweeping North East...");
   for (auto j = 0; j < n_rows_; j++) {
     for (auto i = 0; i < n_columns_; i++) {
-      double cell_center_flux =
-          SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
-      cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
-      cells_[i][j].SetCenterFlux(cell_center_flux);
-      if (i + 1 < n_columns_) cells_[i + 1][j].SetWestFlux();
-      if (j + 1 < n_rows_) cells_[i][j + 1].SetSouthFlux();
+      Cell& current_cell = cells_[i][j];
+
+      current_cell.SetCenterFlux(
+          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell));
+      current_cell.AddPartialScalarFlux(current_cell.center_flux() *
+                                        glc_triplet.weight);
+      if (i + 1 < n_columns_)
+        cells_[i + 1][j].SetWestFlux(2.0 * current_cell.center_flux() -
+                                     current_cell.west_flux());
+      if (j + 1 < n_rows_)
+        cells_[i][j + 1].SetSouthFlux(2.0 * current_cell.center_flux() -
+                                      current_cell.south_flux());
     }
   }
   // printf("Done.\n");
@@ -195,12 +203,19 @@ void Simulation::SweepNorthWest(const GLCTriplet& glc_triplet) {
   // printf("    Sweeping North West...");
   for (auto j = 0; j < n_rows_; j++) {
     for (auto i = n_columns_ - 1; i > -1; i--) {
-      double cell_center_flux =
-          SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
-      cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
-      cells_[i][j].SetCenterFlux(cell_center_flux);
-      if (i - 1 >= 0) cells_[i - 1][j].SetEastFlux();
-      if (j + 1 < n_rows_) cells_[i][j + 1].SetSouthFlux();
+      Cell& current_cell = cells_[i][j];
+
+      current_cell.SetCenterFlux(
+          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell));
+      current_cell.AddPartialScalarFlux(current_cell.center_flux() *
+                                        glc_triplet.weight);
+
+      if (i - 1 >= 0)
+        cells_[i - 1][j].SetEastFlux(2.0 * current_cell.center_flux() -
+                                     current_cell.east_flux());
+      if (j + 1 < n_rows_)
+        cells_[i][j + 1].SetSouthFlux(2.0 * current_cell.center_flux() -
+                                      current_cell.south_flux());
     }
   }
   // printf("Done.\n");
@@ -210,12 +225,19 @@ void Simulation::SweepSouthEast(const GLCTriplet& glc_triplet) {
   // printf("    Sweeping South East...");
   for (auto j = n_rows_ - 1; j > -1; j--) {
     for (auto i = 0; i > n_columns_; i++) {
-      double cell_center_flux =
-          SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
-      cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
-      cells_[i][j].SetCenterFlux(cell_center_flux);
-      if (i + 1 < n_columns_) cells_[i + 1][j].SetWestFlux();
-      if (j - 1 >= 0) cells_[i][j - 1].SetNorthFlux();
+      Cell& current_cell = cells_[i][j];
+
+      current_cell.SetCenterFlux(
+          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell));
+      current_cell.AddPartialScalarFlux(current_cell.center_flux() *
+                                        glc_triplet.weight);
+
+      if (i + 1 < n_columns_)
+        cells_[i + 1][j].SetWestFlux(2.0 * current_cell.center_flux() -
+                                     current_cell.west_flux());
+      if (j - 1 >= 0)
+        cells_[i][j - 1].SetNorthFlux(2.0 * current_cell.center_flux() -
+                                      current_cell.north_flux());
     }
   }
   // printf("Done.\n");
@@ -225,12 +247,18 @@ void Simulation::SweepSouthWest(const GLCTriplet& glc_triplet) {
   // printf("    Sweeping South West...");
   for (auto j = n_rows_ - 1; j > -1; j--) {
     for (auto i = n_columns_ - 1; i > -1; i--) {
-      double cell_center_flux =
-          SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
-      cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
-      cells_[i][j].SetCenterFlux(cell_center_flux);
-      if (i - 1 >= 0) cells_[i - 1][j].SetEastFlux();
-      if (j - 1 >= 0) cells_[i][j - 1].SetNorthFlux();
+      Cell& current_cell = cells_[i][j];
+
+      current_cell.SetCenterFlux(
+          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell));
+      current_cell.AddPartialScalarFlux(current_cell.center_flux() *
+                                        glc_triplet.weight);
+      if (i - 1 >= 0)
+        cells_[i - 1][j].SetEastFlux(2.0 * current_cell.center_flux() -
+                                     current_cell.east_flux());
+      if (j - 1 >= 0)
+        cells_[i][j - 1].SetNorthFlux(2.0 * current_cell.center_flux() -
+                                      current_cell.north_flux());
     }
   }
   // printf("Done.\n");
