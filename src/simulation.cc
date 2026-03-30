@@ -100,18 +100,32 @@ double Simulation::ScalarFluxL2Norm() {
 }
 
 void Simulation::Run() {
+  printf("Beginning simulation...\n");
+  printf("  number of cells = %d\n", n_rows_ * n_columns_);
+  printf("  scattering source iteration tolerance = %.3e\n", si_tolerance_);
+  printf("  number of ordinates per quadrature set = %d\n",
+         spherical_quadrature_.n_ordinates());
+}
+void Simulation::ScatteringIteration() {
   double relative_error = 1.0;  // starting dummy value
 
+  double old_scalar_flux_l2 = ScalarFluxL2Norm();
   while (relative_error > si_tolerance_) {
-    // set all cell sources, reset all scalar flux values to 0
-    for (auto& cell_row : cells_) {
-      for (auto& cell : cell_row) {
-        cell.SetCellSource();
-        cell.ClearScalarFlux();
-      };
-    }
-
+    InitializeCells();
     SweepCells();
+
+    double new_scalar_flux_l2 = ScalarFluxL2Norm();
+    relative_error =
+        std::abs(new_scalar_flux_l2 - old_scalar_flux_l2) / new_scalar_flux_l2;
+  }
+}
+
+void Simulation::InitializeCells() {
+  for (auto& cell_row : cells_) {
+    for (auto& cell : cell_row) {
+      cell.SetCellSource();
+      cell.ClearScalarFlux();
+    };
   }
 }
 

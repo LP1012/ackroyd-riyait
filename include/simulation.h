@@ -104,6 +104,8 @@ class Simulation {
    */
   void SweepSouthWest(const GLCTriplet& glc_triplet);
 
+  void ScatteringIteration();
+
   /**
    * @brief Evaluates the cell-centered angular flux for a single cell.
    *
@@ -113,6 +115,13 @@ class Simulation {
    * @return double
    */
   double SweepStep(const double x_cosine, const double y_cosine, Cell& cell);
+
+  /**
+   * @brief Within sweeping, sets new cell source and resets cell scalar flux to
+   * 0
+   *
+   */
+  void InitializeCells();
 
   /**
    * @brief Sweep all cells over all directions
