@@ -96,7 +96,7 @@ double Simulation::ScalarFluxL2Norm() {
   for (auto& cell_row : cells_) {
     for (auto& cell : cell_row) sum += cell.ScalarFluxL2();
   }
-  return sum;
+  return std::sqrt(sum);
 }
 
 void Simulation::ExportResultsToCSV(const std::string output_name) {
@@ -134,7 +134,7 @@ void Simulation::ScatteringIteration() {
   double old_scalar_flux_l2 = ScalarFluxL2Norm();
 
   unsigned int count = 1;
-  while (relative_error > si_tolerance_ && count <= 5) {
+  while (relative_error > si_tolerance_ && count <= 100) {
     InitializeCells();
 
     SweepCells();
