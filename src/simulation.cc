@@ -154,6 +154,7 @@ void Simulation::InitializeCells() {
     for (auto& cell : cell_row) {
       cell.SetCellSource();
       cell.ClearScalarFlux();
+      cell.ResetBoundaryFluxes();
     };
   }
 }
@@ -183,8 +184,8 @@ void Simulation::SweepNorthEast(const GLCTriplet& glc_triplet) {
           SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
       cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
       cells_[i][j].SetCenterFlux(cell_center_flux);
-      cells_[i][j].SetEastFlux();
-      cells_[i][j].SetNorthFlux();
+      if (i + 1 < n_columns_) cells_[i + 1][j].SetWestFlux();
+      if (j + 1 < n_rows_) cells_[i][j + 1].SetSouthFlux();
     }
   }
   // printf("Done.\n");
@@ -198,8 +199,8 @@ void Simulation::SweepNorthWest(const GLCTriplet& glc_triplet) {
           SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
       cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
       cells_[i][j].SetCenterFlux(cell_center_flux);
-      cells_[i][j].SetWestFlux();
-      cells_[i][j].SetNorthFlux();
+      if (i - 1 >= 0) cells_[i - 1][j].SetEastFlux();
+      if (j + 1 < n_rows_) cells_[i][j + 1].SetSouthFlux();
     }
   }
   // printf("Done.\n");
@@ -213,8 +214,8 @@ void Simulation::SweepSouthEast(const GLCTriplet& glc_triplet) {
           SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
       cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
       cells_[i][j].SetCenterFlux(cell_center_flux);
-      cells_[i][j].SetEastFlux();
-      cells_[i][j].SetSouthFlux();
+      if (i + 1 < n_columns_) cells_[i + 1][j].SetWestFlux();
+      if (j - 1 >= 0) cells_[i][j - 1].SetNorthFlux();
     }
   }
   // printf("Done.\n");
@@ -228,8 +229,8 @@ void Simulation::SweepSouthWest(const GLCTriplet& glc_triplet) {
           SweepStep(glc_triplet.mu, glc_triplet.eta, cells_[i][j]);
       cells_[i][j].AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
       cells_[i][j].SetCenterFlux(cell_center_flux);
-      cells_[i][j].SetWestFlux();
-      cells_[i][j].SetSouthFlux();
+      if (i - 1 >= 0) cells_[i - 1][j].SetEastFlux();
+      if (j - 1 >= 0) cells_[i][j - 1].SetNorthFlux();
     }
   }
   // printf("Done.\n");
@@ -249,7 +250,9 @@ double Simulation::SweepStep(const double x_cosine, const double y_cosine,
   double denominator = 2.0 * std::abs(x_cosine) / cell.dx() +
                        2.0 * std::abs(y_cosine) / cell.dy() +
                        cell.material().total_xs();
-  return numerator / denominator;
+
+  double value = numerator / denominator;
+  return (!std::isnan(value)) ? value : 0;
 }
 
 }  // namespace ar
