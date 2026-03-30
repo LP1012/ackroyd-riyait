@@ -134,11 +134,6 @@ class Simulation {
    *
    */
   void SweepCells();
-  /**
-   * @brief Exports results to a CSV output file for postprocessing.
-   *
-   */
-  void ExportResultsToCSV();
 };
 }  // namespace ar
 
