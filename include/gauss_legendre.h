@@ -23,14 +23,14 @@ class GaussLegendre {
    *
    * @return std::vector<double>
    */
-  std::vector<double> GetWeights() const { return weights_; }
+  const std::vector<double>& GetWeights() const { return weights_; }
 
   /**
    * @brief Get the abscissas
    *
    * @return std::vector<double>
    */
-  std::vector<double> GetAbscissas() const { return abscissas_; }
+  const std::vector<double>& GetAbscissas() const { return abscissas_; }
 
  private:
   /// @brief Quadrature weights
