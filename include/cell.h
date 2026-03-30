@@ -32,6 +32,7 @@ class Cell {
     east_flux_ = 0;
     north_flux_ = 0;
     south_flux_ = 0;
+    center_flux_ = 0;
   }
 
   /**
