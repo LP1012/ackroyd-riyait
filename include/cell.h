@@ -15,16 +15,18 @@ class Cell {
   double north_flux() const { return north_flux_; }
   double south_flux() const { return south_flux_; }
   double east_flux() const { return east_flux_; }
+  double center_flux() const { return center_flux_; }
   double scalar_flux() const { return scalar_flux_; }
   double dx() const { return dx_; }
   double dy() const { return dy_; }
   Point cell_center() const { return cell_center_; }
   Material material() const { return material_; }
 
-  void SetEastFlux() { east_flux_ = 2 * center_flux_ - west_flux_; }
-  void SetWestFlux() { west_flux_ = 2 * center_flux_ - east_flux_; }
-  void SetNorthFlux() { north_flux_ = 2 * center_flux_ - south_flux_; }
-  void SetSouthFlux() { south_flux_ = 2 * center_flux_ - north_flux_; }
+  void SetEastFlux(const double east_flux) { east_flux_ = east_flux; }
+  void SetWestFlux(const double west_flux) { west_flux_ = west_flux; }
+  void SetNorthFlux(const double north_flux) { north_flux_ = north_flux; }
+  void SetSouthFlux(const double south_flux) { south_flux_ = south_flux; }
+
   void SetCenterFlux(const double center_flux) { center_flux_ = center_flux; }
   void ClearScalarFlux() { scalar_flux_ = 0; }
   void ResetBoundaryFluxes() {
