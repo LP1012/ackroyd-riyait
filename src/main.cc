@@ -50,7 +50,7 @@ int main() {
       region_1, region_2, region_3,  region_4,  region_5,  region_6, region_7,
       region_8, region_9, region_10, region_11, region_12, region_13};
 
-  Simulation ar_simulation(regions, 2);
+  Simulation ar_simulation(regions, 24);
   ar_simulation.Run();
   ar_simulation.ExportResultsToCSV();
 
