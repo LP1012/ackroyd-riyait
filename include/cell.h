@@ -15,7 +15,6 @@ class Cell {
   double north_flux() const { return north_flux_; }
   double south_flux() const { return south_flux_; }
   double east_flux() const { return east_flux_; }
-  double center_flux() const { return center_flux_; }
   double scalar_flux() const { return scalar_flux_; }
   double dx() const { return dx_; }
   double dy() const { return dy_; }
@@ -27,14 +26,12 @@ class Cell {
   void SetNorthFlux(const double north_flux) { north_flux_ = north_flux; }
   void SetSouthFlux(const double south_flux) { south_flux_ = south_flux; }
 
-  void SetCenterFlux(const double center_flux) { center_flux_ = center_flux; }
   void ClearScalarFlux() { scalar_flux_ = 0; }
   void ResetBoundaryFluxes() {
     west_flux_ = 0;
     east_flux_ = 0;
     north_flux_ = 0;
     south_flux_ = 0;
-    center_flux_ = 0;
   }
 
   /**
@@ -76,7 +73,6 @@ class Cell {
   double north_flux_ = 0;
   double south_flux_ = 0;
   double east_flux_ = 0;
-  double center_flux_ = 0;
   double cell_source_ = 0;
   double scalar_flux_ = 0;
 };

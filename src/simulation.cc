@@ -184,15 +184,15 @@ void Simulation::SweepNorthEast(const GLCTriplet& glc_triplet) {
     for (auto i = 0; i < n_columns_; i++) {
       Cell& current_cell = cells_[i][j];
 
-      current_cell.SetCenterFlux(
-          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell));
-      current_cell.AddPartialScalarFlux(current_cell.center_flux() *
-                                        glc_triplet.weight);
+      double cell_center_flux =
+          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell);
+
+      current_cell.AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
       if (i + 1 < n_columns_)
-        cells_[i + 1][j].SetWestFlux(2.0 * current_cell.center_flux() -
+        cells_[i + 1][j].SetWestFlux(2.0 * cell_center_flux -
                                      current_cell.west_flux());
       if (j + 1 < n_rows_)
-        cells_[i][j + 1].SetSouthFlux(2.0 * current_cell.center_flux() -
+        cells_[i][j + 1].SetSouthFlux(2.0 * cell_center_flux -
                                       current_cell.south_flux());
     }
   }
@@ -205,16 +205,16 @@ void Simulation::SweepNorthWest(const GLCTriplet& glc_triplet) {
     for (auto i = n_columns_ - 1; i > -1; i--) {
       Cell& current_cell = cells_[i][j];
 
-      current_cell.SetCenterFlux(
-          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell));
-      current_cell.AddPartialScalarFlux(current_cell.center_flux() *
-                                        glc_triplet.weight);
+      double cell_center_flux =
+          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell);
+
+      current_cell.AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
 
       if (i - 1 >= 0)
-        cells_[i - 1][j].SetEastFlux(2.0 * current_cell.center_flux() -
+        cells_[i - 1][j].SetEastFlux(2.0 * cell_center_flux -
                                      current_cell.east_flux());
       if (j + 1 < n_rows_)
-        cells_[i][j + 1].SetSouthFlux(2.0 * current_cell.center_flux() -
+        cells_[i][j + 1].SetSouthFlux(2.0 * cell_center_flux -
                                       current_cell.south_flux());
     }
   }
@@ -227,16 +227,16 @@ void Simulation::SweepSouthEast(const GLCTriplet& glc_triplet) {
     for (auto i = 0; i > n_columns_; i++) {
       Cell& current_cell = cells_[i][j];
 
-      current_cell.SetCenterFlux(
-          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell));
-      current_cell.AddPartialScalarFlux(current_cell.center_flux() *
-                                        glc_triplet.weight);
+      double cell_center_flux =
+          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell);
+
+      current_cell.AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
 
       if (i + 1 < n_columns_)
-        cells_[i + 1][j].SetWestFlux(2.0 * current_cell.center_flux() -
+        cells_[i + 1][j].SetWestFlux(2.0 * cell_center_flux -
                                      current_cell.west_flux());
       if (j - 1 >= 0)
-        cells_[i][j - 1].SetNorthFlux(2.0 * current_cell.center_flux() -
+        cells_[i][j - 1].SetNorthFlux(2.0 * cell_center_flux -
                                       current_cell.north_flux());
     }
   }
@@ -249,15 +249,15 @@ void Simulation::SweepSouthWest(const GLCTriplet& glc_triplet) {
     for (auto i = n_columns_ - 1; i > -1; i--) {
       Cell& current_cell = cells_[i][j];
 
-      current_cell.SetCenterFlux(
-          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell));
-      current_cell.AddPartialScalarFlux(current_cell.center_flux() *
-                                        glc_triplet.weight);
+      double cell_center_flux =
+          SweepStep(glc_triplet.mu, glc_triplet.eta, current_cell);
+
+      current_cell.AddPartialScalarFlux(cell_center_flux * glc_triplet.weight);
       if (i - 1 >= 0)
-        cells_[i - 1][j].SetEastFlux(2.0 * current_cell.center_flux() -
+        cells_[i - 1][j].SetEastFlux(2.0 * cell_center_flux -
                                      current_cell.east_flux());
       if (j - 1 >= 0)
-        cells_[i][j - 1].SetNorthFlux(2.0 * current_cell.center_flux() -
+        cells_[i][j - 1].SetNorthFlux(2.0 * cell_center_flux -
                                       current_cell.north_flux());
     }
   }
