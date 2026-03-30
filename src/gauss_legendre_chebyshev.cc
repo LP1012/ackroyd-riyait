@@ -30,7 +30,7 @@ std::vector<double> GaussLegendreChebyshev::ComputeChebyshevAbscissae() {
 }
 
 double GaussLegendreChebyshev::ComputeChebyshevAbscissaValue(const int number) {
-  return std::cos((2.0 * static_cast<double>(number) - 1.0) /
+  return std::cos((2.0 * static_cast<double>(number + 1) - 1.0) /
                   (2.0 * static_cast<double>(n_ordinates_)) * M_PI);
 }
 
@@ -50,7 +50,7 @@ std::vector<double> GaussLegendreChebyshev::ComputeYDirectionCosines(
   for (auto i = 0; i < n_ordinates_; i++) {
     double omega = M_PI * (chebyshev_abscissae[i] + 1.0);
     double eta =
-        std::sqrt(1.0 - std::pow(gl_abscissae[i], 2)) * std::cos(omega);
+        std::sqrt(1.0 - std::pow(gl_abscissae[i], 2)) * std::sin(omega);
     y_direction_cosines.push_back(eta);
   }
   return y_direction_cosines;
