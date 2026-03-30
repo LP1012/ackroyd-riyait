@@ -134,7 +134,7 @@ void Simulation::ScatteringIteration() {
   double old_scalar_flux_l2 = ScalarFluxL2Norm();
 
   unsigned int count = 1;
-  while (relative_error > si_tolerance_ && count < 11) {
+  while (relative_error > si_tolerance_ && count <= 50) {
     InitializeCells();
 
     SweepCells();
