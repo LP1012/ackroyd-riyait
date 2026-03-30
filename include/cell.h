@@ -27,6 +27,12 @@ class Cell {
   void SetSouthFlux() { south_flux_ = 2 * center_flux_ - north_flux_; }
   void SetCenterFlux(const double center_flux) { center_flux_ = center_flux; }
   void ClearScalarFlux() { scalar_flux_ = 0; }
+  void ResetBoundaryFluxes() {
+    west_flux_ = 0;
+    east_flux_ = 0;
+    north_flux_ = 0;
+    south_flux_ = 0;
+  }
 
   /**
    * @brief Set the Cell source member using scalar flux and volumetric source
