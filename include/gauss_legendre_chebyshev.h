@@ -32,6 +32,8 @@ class GaussLegendreChebyshev {
 
   const std::vector<GLCTriplet> &GetTriples() const { return mu_eta_weight_; }
 
+  int n_ordinates() const { return n_ordinates_; }
+
  private:
   const int n_ordinates_;  /// number of ordinates per quadrature set
 
