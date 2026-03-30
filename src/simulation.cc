@@ -122,20 +122,30 @@ void Simulation::Run() {
   printf("Beginning simulation...\n");
   printf("  number of cells = %d\n", n_rows_ * n_columns_);
   printf("  scattering source iteration tolerance = %.3e\n", si_tolerance_);
-  printf("  number of ordinates per quadrature set = %d\n",
+  printf("  number of ordinates per quadrature set = %d\n\n",
          spherical_quadrature_.n_ordinates());
+
+  printf("Beginning scattering iterations...\n");
+  ScatteringIteration();
 }
 void Simulation::ScatteringIteration() {
   double relative_error = 1.0;  // starting dummy value
 
   double old_scalar_flux_l2 = ScalarFluxL2Norm();
-  while (relative_error > si_tolerance_) {
+
+  unsigned int count = 1;
+  while (relative_error > si_tolerance_ && count < 11) {
     InitializeCells();
+
     SweepCells();
 
     double new_scalar_flux_l2 = ScalarFluxL2Norm();
     relative_error =
         std::abs(new_scalar_flux_l2 - old_scalar_flux_l2) / new_scalar_flux_l2;
+    printf("  Iteration : %4d, Relative Error = %.3e\n", count, relative_error);
+
+    count++;
+    old_scalar_flux_l2 = new_scalar_flux_l2;
   }
 }
 
@@ -150,6 +160,7 @@ void Simulation::InitializeCells() {
 
 void Simulation::SweepCells() {
   for (auto& triplet : spherical_quadrature_.GetTriples()) {
+    // printf("    mu = %.4f, eta = %.4f\n", triplet.mu, triplet.eta);
     if (triplet.mu > 0 && triplet.eta > 0)
       SweepNorthEast(triplet);
     else if (triplet.mu > 0 && triplet.eta < 0)
@@ -165,6 +176,7 @@ void Simulation::SweepCells() {
 }
 
 void Simulation::SweepNorthEast(const GLCTriplet& glc_triplet) {
+  // printf("    Sweeping North East...");
   for (auto j = 0; j < n_rows_; j++) {
     for (auto i = 0; i < n_columns_; i++) {
       double cell_center_flux =
@@ -175,9 +187,11 @@ void Simulation::SweepNorthEast(const GLCTriplet& glc_triplet) {
       cells_[i][j].SetNorthFlux();
     }
   }
+  // printf("Done.\n");
 }
 
 void Simulation::SweepNorthWest(const GLCTriplet& glc_triplet) {
+  // printf("    Sweeping North West...");
   for (auto j = 0; j < n_rows_; j++) {
     for (auto i = n_columns_ - 1; i > -1; i--) {
       double cell_center_flux =
@@ -188,9 +202,11 @@ void Simulation::SweepNorthWest(const GLCTriplet& glc_triplet) {
       cells_[i][j].SetNorthFlux();
     }
   }
+  // printf("Done.\n");
 }
 
 void Simulation::SweepSouthEast(const GLCTriplet& glc_triplet) {
+  // printf("    Sweeping South East...");
   for (auto j = n_rows_ - 1; j > -1; j--) {
     for (auto i = 0; i > n_columns_; i++) {
       double cell_center_flux =
@@ -201,9 +217,11 @@ void Simulation::SweepSouthEast(const GLCTriplet& glc_triplet) {
       cells_[i][j].SetSouthFlux();
     }
   }
+  // printf("Done.\n");
 }
 
 void Simulation::SweepSouthWest(const GLCTriplet& glc_triplet) {
+  // printf("    Sweeping South West...");
   for (auto j = n_rows_ - 1; j > -1; j--) {
     for (auto i = n_columns_ - 1; i > -1; i--) {
       double cell_center_flux =
@@ -214,6 +232,7 @@ void Simulation::SweepSouthWest(const GLCTriplet& glc_triplet) {
       cells_[i][j].SetSouthFlux();
     }
   }
+  // printf("Done.\n");
 }
 
 double Simulation::SweepStep(const double x_cosine, const double y_cosine,
