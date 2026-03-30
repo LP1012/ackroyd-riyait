@@ -5,10 +5,10 @@ latexopt   = -halt-on-error -file-line-error -shell-escape
 all: all-via-pdf
 
 all-via-pdf: $(manuscript).tex $(references)
-	pdflatex $(latexopt) $<
+	pdflatex $(latexopt) --shell-escape $<
 	bibtex $(manuscript).aux
-	pdflatex $(latexopt) $<
-	pdflatex $(latexopt) $<
+	pdflatex $(latexopt) --shell-escape $<
+	pdflatex $(latexopt) --shell-escape $<
 
 all-via-dvi: 
 	latex $(latexopt) $(manuscript)
