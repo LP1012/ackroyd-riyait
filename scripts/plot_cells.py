@@ -67,7 +67,9 @@ def plot_cells_with_material(csv_file):
 
     ax.legend(legend_handles, legend_labels, title="Materials", loc="upper right")
 
-    plt.show()
+    plt.tight_layout()
+
+    plt.savefig("cell_geometry.png", dpi=300)
 
 
 if __name__ == "__main__":

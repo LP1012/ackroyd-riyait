@@ -42,7 +42,7 @@ def plot_cell_fluxes(csv_file):
     # ax.grid(color="white", linewidth=0.5, linestyle="--", alpha=0.5)
 
     plt.tight_layout()
-    plt.show()
+    plt.savefig("cell_fluxes.png", dpi=300)
 
 
 if __name__ == "__main__":
