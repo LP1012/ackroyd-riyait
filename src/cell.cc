@@ -24,7 +24,7 @@ Point Cell::ComputeCellCenter(const double xmin, const double dx,
 }
 
 void Cell::SetCellSource() {
-  cell_source_ = material_.scattering_xs() * scalar_flux_ +
+  cell_source_ = material_.scattering_xs() / 4.0 / M_PI * scalar_flux_ +
                  material_.IsotropicSource();  // check this!!!
 }
 
