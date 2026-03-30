@@ -35,6 +35,12 @@ def plot_cell_fluxes(csv_file):
     ax.set_ylabel("Y")
     ax.set_title("Scalar Flux over Problem Domain")
 
+    ax.set_xlim(-10, 10)
+    ax.set_ylim(-10, 10)
+    # # ax.set_xticks(xs)
+    # # ax.set_yticks(ys)
+    # ax.grid(color="white", linewidth=0.5, linestyle="--", alpha=0.5)
+
     plt.tight_layout()
     plt.show()
 
