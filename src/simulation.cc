@@ -80,7 +80,8 @@ void Simulation::ExportCellsToCSV(const std::string output_name) {
         "Output file could not be opened in ExportCellsToCSV!");
   }
 
-  output_file << "x_center,y_center,width,height,material_id" << "\n";
+  output_file << "x_center,y_center,width,height,material_id"
+              << "\n";
 
   for (auto& row : cells_) {
     for (auto& cell : row)
@@ -108,12 +109,14 @@ void Simulation::ExportResultsToCSV(const std::string output_name) {
         "Output file could not be opened in ExportResultstoCSV!");
   }
 
-  output_file << "x_center,y_center,center_flux" << "\n";
+  output_file << "x_center,y_center,center_flux,volume"
+              << "\n";
 
   for (auto& row : cells_) {
     for (auto& cell : row)
       output_file << cell.cell_center().X() << "," << cell.cell_center().Y()
-                  << "," << cell.scalar_flux() << "\n";
+                  << "," << cell.scalar_flux() << "," << cell.dx() * cell.dy()
+                  << "\n";
   }
   output_file.close();
 }
