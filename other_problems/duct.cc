@@ -9,9 +9,9 @@ using namespace ar;
 // replace main.cc with duct.cc and rename to main.cc, or copy this input
 int main() {
   // hard-code in the regions and materials for now
-  Material material_1(1, 0.19, 0.2, 6.4);
+  Material material_1(1, 0, 0.5, 1);
   Material material_2(2, 0, 0);
-  Material material_3(3, 0.19, 0.2);
+  Material material_3(3, 0, 0.5);
 
   //   // for non-scattering simulation, use:
   //   Material material_1(1, 0, 0.8, 6.4);
@@ -36,7 +36,7 @@ int main() {
   std::vector<RectangularRegion> regions = {
       region_1, region_2, region_3, region_4, region_5, region_6, region_7};
 
-  Simulation ar_simulation(regions, 16);
+  Simulation ar_simulation(regions, 8);
   //   ar_simulation.ExportCellsToCSV();
   ar_simulation.Run();
   ar_simulation.ExportResultsToCSV();
