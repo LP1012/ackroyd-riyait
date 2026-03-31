@@ -29,6 +29,7 @@
 \usepackage{bigints}
 % \usepackage{minted2}
 \usepackage{physics}
+\usepackage[noabbrev,capitalize]{cleveref}
 
 \usepackage{tikz}
 \usepackage{xcolor}
@@ -41,6 +42,9 @@
 \newcommand{\rvec}{\mathbf{r}}
 \newcommand{\psifullprime}{\psi\left(\mathbf{r},\hat{\Omega}',E',t\right)}
 \newcommand{\psifull}{\psi\left(\mathbf{r},\hat{\Omega},E,t\right)}
+\newcommand{\psisimple}{\psi\left(\mathbf{r},\hat{\Omega}\right)} % "psi simple"
+
+\allowdisplaybreaks
 
 \newcommand{\units}[1] {\:\text{#1}}%
 \newcommand{\SN}{S$_N$}%{S$_\text{N}$}%{$S_N$}%
@@ -113,6 +117,9 @@
 
 \subsection{Problem Description}
 \input{s2_ar_problem.tex}
+
+\subsection{Simplification of the Transport Equation}
+\input{bte_simplification.tex}
 
 \section{Methods}
 \subsection{Discretization}

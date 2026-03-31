@@ -1,8 +1,27 @@
 \begin{frame}
-  \frametitle{Ackroyd-Riyait Problem}
+  \frametitle{Ackroyd-Riyait Problems}
   % describes the Ackroyd-Riyait problem
-  The problem of interest is the \textit{Ackroyd-Riyait problem}, which is a non-multiplying 2D neutron transport model that was created to demonstrate a numerical artifact called \textit{ray effects}~\cite{ACKROYD19891}.
+  The problems of interest are the \glspl{arp}, which are a set of non-multiplying, time-independent, one-speed 2D neutron transport models that were created to demonstrate a numerical artifact called \textit{ray effects}~\cite{ACKROYD19891}.
   These appear when solving low-scattering (non-diffusive) problems using discrete ordinates methods.
+  In this project, we are primarily concerned with the \gls{arp1}.
 
   \input{figures/tikz/ackroyd_riyait_schematic_1.tex}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Ackroyd-Riyait Problem 1 Material Properties}
+  \gls{arp1} is defined by constant-value properties seen in \cref{tab:arp1-props}.
+  \begin{table}
+    \begin{tabular}{llll}
+      \toprule
+      Region         & Source (n/cm\textsuperscript{2}-s) & $\Sigma_t$ (1/cm) & $\Sigma_s$ (1/cm) \\
+      \midrule
+      Source         & 6.4                                & 0.8 (0.2)         & 0.0 (0.19)        \\
+      Void           & 0                                  & 0                 & 0                 \\
+      Abs/Scattering & 0                                  & 0.8 (0.2)         & 0.0 (0.19)        \\
+      \bottomrule
+    \end{tabular}
+    \caption{Constant-value material properties for \gls{arp1}.}
+    \label{tab:arp1-props}
+  \end{table}
 \end{frame}
