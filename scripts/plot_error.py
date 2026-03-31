@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+from scipy.stats import linregress
+
 
 def plot_error(csv_file):
     df = pd.read_csv(csv_file)
@@ -21,12 +23,21 @@ def plot_error(csv_file):
         last_l2norm = row["l2_norm"]
         ys[i] = err
 
-    ax.plot(xs, ys)
+    ax.plot(xs, ys, marker='o')
+
+    slope = linregress([np.log(x) for x in xs[1:]],
+                       [np.log(y) for y in ys[1:]])
+    
+    slope_xs = np.linspace(256, 1e5, 500)
+    ax.plot(slope_xs, [x**slope[0]*np.exp(slope[1]) for x in slope_xs],
+            label=f'slope = {round(slope[0], 3)}')
+    print(f"m = {slope[0]}, b = {slope[1]}")
     
     ax.set_xlabel("Number of Cells")
     ax.set_ylabel("Relative Error")
     ax.loglog()
     ax.grid()
+    ax.legend()
 
     plt.tight_layout()
     plt.savefig("l2_norm.png", dpi=300)
