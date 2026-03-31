@@ -12,7 +12,7 @@
   Note that in applying the above, we have assumed the solution to be slowly-varying over each cell, and thus approximate the cell-centered value as a \textit{constant}.
   This leaves:
   \begin{multline}\label{eq:fv-eqs}
-    \mu_{m}\left(\psi_{mn}^{i+1/2,j}-\psi_{mn}^{i-1/2,j}\right)+\eta_{n}\left(\psi_{mn}^{i,j+1/2}\-\psi_{mn}^{i,j-1/2}\right) + \Sigma_t ^{ij}\psi_{mn}^{ij} =\\=\frac{\Sigma_s^{ij}}{4\pi}\phi^{ij} + \frac{Q^{ij}\left(\rvec\right)}{4\pi}
+    \frac{\mu_{m}}{h_x}\left(\psi_{mn}^{i+1/2,j}-\psi_{mn}^{i-1/2,j}\right)+\frac{\eta_{n}}{h_y}\left(\psi_{mn}^{i,j+1/2}\-\psi_{mn}^{i,j-1/2}\right) + \Sigma_t ^{ij}\psi_{mn}^{ij} =\\=\frac{\Sigma_s^{ij}}{4\pi}\phi^{ij} + \frac{Q^{ij}\left(\rvec\right)}{4\pi}
   \end{multline}
   where $\psi_{mn}^{i\pm1/2,j}$ and $\psi_{mn}^{i,j\pm1/2}$ are the cell boundary fluxes for the $i,j$-th cell along the $x$- and $y$- directions, respectively.
 \end{frame}
