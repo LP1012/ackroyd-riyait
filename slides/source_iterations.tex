@@ -1,0 +1,15 @@
+\begin{frame}
+  \frametitle{Source Iteration Theory}
+  Because of the inherent reliance of the inscattering source on the solution itself, an iteration procedure must be used.
+  To \cref{eq:fv-eqs}, we add the iteration number $k$:
+  \begin{multline}\label{eq:source-iteration}
+    \left[ \mu_{m}\left(\psi_{mn}^{i+1/2,j}-\psi_{mn}^{i-1/2,j}\right)+\eta_{n}\left(\psi_{mn}^{i,j+1/2}\-\psi_{mn}^{i,j-1/2}\right) + \Sigma_t ^{ij}\psi_{mn}^{ij}\right]^{k+1} =\\=\left[ \frac{\Sigma_s^{ij}}{4\pi}\phi^{ij} + \frac{Q^{ij}\left(\rvec\right)}{4\pi}\right]^k
+  \end{multline}
+  Evidently, the source terms in \cref{eq:source-iteration} ``lag'' behind the loss terms.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Source Iteration Algorithm}
+  \input{figures/tikz/source_iteration_figure.tex}
+
+\end{frame}
