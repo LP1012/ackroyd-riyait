@@ -1,4 +1,20 @@
 \begin{frame}
+  \frametitle{Legendre Polynomial Expansion of Inscattering Term}
+  It is common to rewrite the inscattering (double-differential) cross section in terms of a Legendre polynomial expansion~\cite{Larsen2010}:
+  \begin{equation}
+    \label{eq:scattering-poly-expansion}
+    \Sigma_s \left(\rvec,\ohat'\cdot \ohat,E'\rightarrow E\right) = \sum_{m=0}^{\infty}\frac{2m+1}{4\pi}P_m \left(\ohat' \cdot \ohat \right)\Sigma_{s,m}\left(\rvec, E'\rightarrow E\right)
+  \end{equation}
+  where $\Sigma_{s,m}\left(\rvec, E'\rightarrow E\right)$ are the \textit{Legendre moments}, computed with~\cite{TheoryManualOpenSn}:
+  \begin{equation} \label{eq:legendre-moments}
+    \Sigma_{s,m}\left(\rvec, E'\rightarrow E\right) = 2\pi \int_{-1}^{1}\Sigma_s \left(\rvec,\mu_0,E'\rightarrow E\right)P_m \left(\mu_0\right)\dd \mu_0
+  \end{equation}
+  where $\mu_0 \equiv \ohat' \cdot \ohat$.
+  The moments are normally computed or available \textit{before} the simulation, \textit{not} computed on-the-fly.
+  Note that \cref{eq:legendre-moments} is just an integral of the inscattering cross section over the unit sphere weighted by a Legendre polynomial.
+\end{frame}
+
+\begin{frame}
   \frametitle{Simplification of the \gls{bte}}
   Because the \glspl{arp} are stated to be \textit{non-multiplying}, \textit{time-independent}, and \textit{one-speed}, \cref{eq:general-bte} is immediately simplified to:
   \begin{multline}\label{eq:first-simplification-bte}
