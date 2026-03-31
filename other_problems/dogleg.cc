@@ -9,9 +9,9 @@ using namespace ar;
 // replace main.cc with dogleg.cc and rename to main.cc, or copy this input
 int main() {
   // hard-code in the regions and materials for now
-  Material material_1(1, 0.19, 0.2, 6.4);
+  Material material_1(1, 0, 0.5, 1);
   Material material_2(2, 0, 0);
-  Material material_3(3, 0.19, 0.2);
+  Material material_3(3, 0, 0.5);
 
   //   // for non-scattering simulation, use:
   //   Material material_1(1, 0, 0.8, 6.4);
