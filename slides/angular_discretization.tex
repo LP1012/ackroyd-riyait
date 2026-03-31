@@ -41,6 +41,7 @@
                 \label{eq:composite-quad}
                 \int_{4\pi}\psisimple\dd \ohat \approx \sum_{n=1}^N \sum_{m=1}^M w_{nm}\psi\left(\rvec,\mu_m,\varphi_n\right)
         \end{equation}
+        where $w_{nm} = w_m\times w_n$.
 
         In this implementation, \cref{eq:polar-quad} is approximated with Gauss-Legendre quadrature, while \cref{eq:azim-quad} is approximated with Gauss-Chebyshev quadrature.
         The discretization of angle generates a set of \textit{discrete ordinates}, thus we look to solve:
