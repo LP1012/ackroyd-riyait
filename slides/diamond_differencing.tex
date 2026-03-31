@@ -1,0 +1,25 @@
+\begin{frame}
+  \frametitle{Diamond Differencing}
+  To close \cref{eq:fv-eqs}, we need an expression for the cell fluxes.
+  Recall the forward and backward finite difference approximations:
+  \begin{subequations}
+    \begin{equation}
+      \label{eq:forward-diff}
+      \dv{\psi}{x}\left. \right|_{i,j} = \frac{\psi^{i+1/2}-\psi^i}{h}+\mathcal{O}\left(h\right)
+    \end{equation}
+    \begin{equation}
+      \label{eq:backward-diff}
+      \dv{\psi}{x}\left. \right|_{i,j} = \frac{\psi^{i}-\psi^{i-1/2}}{h}+\mathcal{O}\left(h\right)
+    \end{equation}
+  \end{subequations}
+  Subtracting \cref{eq:forward-diff} and \cref{eq:backward-diff} gives:
+  \begin{equation}
+    0 = \frac{\psi^{i+1/2}-2\psi^i+\psi^{i-1/2}}{h}+\mathcal{O}\left(h\right)
+  \end{equation}
+  Or, equivalently:
+  \begin{equation}\label{eq:diamond-differencing}
+    \psi^i = \frac{\psi^{i+1/2}+\psi^{i-1/2}}{2}+\mathcal{O}\left(h^2\right)
+  \end{equation}
+  \cref{eq:diamond-differencing} is known as the \textit{diamond differencing} closure and is 2\textsuperscript{nd}-order accurate in space.
+  Depending on the available information from surrounding cells (i.e. the sign of $\mu$ and $\eta$), \cref{eq:diamond-differencing} is used to create a \textit{sweeping} algorithm that solves \cref{eq:fv-eqs} along the direction of travel.
+\end{frame}
