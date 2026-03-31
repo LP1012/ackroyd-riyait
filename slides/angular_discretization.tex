@@ -1,9 +1,52 @@
 \begin{frame}
-        \frametitle{Discretizing Angle}
-        % describes the concept of discretizing angle in the nte
+        \frametitle{Angular Discretization}
+        Before applying any discretizations, we first examine the streaming term (\cref{eq:streaming-term}).
+        By aligning the polar angle with the $x$-axis, the solid angle is written in Cartesian coordinates:
+        \begin{equation}
+                \label{eq:solid-angle-expansion}
+                \ohat = \underbrace{\cos \theta}_{\ohat_x} \mathbf{\hat{x}}+\underbrace{\sin\theta \sin\varphi}_{\ohat_y} \mathbf{\hat{y}} + \underbrace{\sin\theta \cos \varphi}_{\ohat_z} \mathbf{\hat{z}}
+        \end{equation}
+        Substituting into \cref{eq:streaming-term}:
+        \begin{equation}
+                \begin{split}
+                        \ohat \cdot \grad \psisimple & = \ohat_x \pdv{\psisimple}{x}+\ohat_y\pdv{\psisimple}{y}+\ohat_z\pdv{\psisimple}{z} \\
+                                                     & = \mu \pdv{\psisimple}{x}+\eta\pdv{\psisimple}{y}+\xi\pdv{\psisimple}{z}
+                \end{split}
+        \end{equation}
+        where, in the second line, we have substituted in greek letters to fit with convention.
 \end{frame}
 
-\begin{frame}
-        \frametitle{Utilizing Quadrature}
-        % describes the quadrature sets used and how they were implemented
+\begin{frame}[allowframebreaks]
+        \frametitle{Angular Quadrature}
+        We look to approximate the integral over the unit sphere for the angle-integrated flux:
+        \begin{equation}\label{eq:scalar-flux-integral-expanded}
+                \begin{split}
+                        \int_{4\pi}\psisimple\dd \ohat & = \int_{0}^{2\pi}\int_{0}^{\pi}\psi\left(\rvec,\theta,\varphi\right)\dd \theta \dd \varphi \\
+                                                       & =\int_{0}^{2\pi}\int_{-1}^{1}\psi\left(\rvec,\mu,\varphi\right)\dd \mu \dd \varphi         \\
+                                                       & = \int_{0}^{2\pi}\Gamma\left(\rvec,\varphi\right) \dd \varphi
+                \end{split}
+        \end{equation}
+        where $\mu=\cos\theta$ as before and $\Gamma\left(\rvec,\varphi\right)\equiv\int_{-1}^{1}\psi\left(\rvec,\mu,\varphi\right)\dd \mu$.
+        \Cref{eq:scalar-flux-integral-expanded} can be approximated with two quadrature sets:
+        \begin{subequations}
+                \begin{equation}\label{eq:polar-quad}
+                        \Gamma\left(\rvec,\varphi\right)\equiv\int_{-1}^{1}\psi\left(\rvec,\mu,\varphi\right)\dd \mu \approx \sum_{m=1}^M w_m \psi\left(\rvec,\mu_m,\varphi\right)
+                \end{equation}
+                \begin{equation}\label{eq:azim-quad}
+                        \int_{0}^{2\pi}\Gamma\left(\rvec,\varphi\right) \dd \varphi \approx \sum_{n=1}^N w_n \Gamma\left(\rvec,\varphi_n\right)
+                \end{equation}
+        \end{subequations}
+        Combining \cref{eq:polar-quad} and \cref{eq:azim-quad}:
+        \begin{equation}
+                \label{eq:composite-quad}
+                \int_{4\pi}\psisimple\dd \ohat \approx \sum_{n=1}^N \sum_{m=1}^M w_{nm}\psi\left(\rvec,\mu_m,\varphi_n\right)
+        \end{equation}
+
+        In this implementation, \cref{eq:polar-quad} is approximated with Gauss-Legendre quadrature, while \cref{eq:azim-quad} is approximated with Gauss-Chebyshev quadrature.
+        The discretization of angle generates a set of \textit{discrete ordinates}, thus we look to solve:
+        \begin{equation}\label{eq:sn-equations}
+                \mu_{m}\dv{\psi_{mn}}{x}+\eta_{n}\dv{\psi_{mn}}{y} + \Sigma_t \left(\rvec\right)\psi_{mn}\left(\rvec\right) =\frac{\Sigma_s}{4\pi}\phi\left(\rvec\right) + \frac{Q\left(\rvec\right)}{4\pi}
+        \end{equation}
+        where $\psi_{mn}\left(\rvec\right)\equiv \psi\left(\rvec,\mu_m,\varphi_n\right)$, $\mu=\cos\theta$, and $\eta=\sqrt{1-\mu^2}\sin\varphi$.
+        \Cref{eq:sn-equations} is a set of $N\times M$ equations coupled by \cref{eq:composite-quad}.
 \end{frame}
