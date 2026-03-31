@@ -44,6 +44,20 @@ def plot_cell_fluxes(csv_file):
     plt.tight_layout()
     plt.savefig("cell_fluxes.png", dpi=300)
 
+    fig, ax = plt.subplots()
+
+    diag_dist = np.diag(X)
+    diag_flux = np.diag(flux_mesh)
+    mid = int(len(diag_dist)/2)
+
+    ax.plot(diag_dist[mid-1:], diag_flux[mid-1:])
+    ax.set_yscale("log")
+
+    ax.set_xlabel("X-Y Diagonal")
+    ax.set_ylabel("Scalar Flux")
+    
+    plt.tight_layout()
+    plt.savefig("diagonal_flux.png", dpi=300)
 
 if __name__ == "__main__":
     plot_cell_fluxes("cell_fluxes.csv")

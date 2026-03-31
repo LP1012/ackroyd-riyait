@@ -21,7 +21,7 @@ int main() {
   // assumed for all sides.
 
   double target_cell_width =
-      0.125 * 1.25;  // take multiples of this to get a grid convergence study
+      0.5 * 1.25;  // take multiples of this to get a grid convergence study
 
   RectangularRegion region_1(material_3, -10, 10, 5, 10, target_cell_width);
 
