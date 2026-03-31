@@ -8,9 +8,9 @@ using namespace ar;
 
 int main() {
   // hard-code in the regions and materials for now
-  Material material_1(1, 0, 0.8, 6.4);
+  Material material_1(1, 0.2, 0.19, 6.4);
   Material material_2(2, 0, 0);
-  Material material_3(3, 0, 0.8);
+  Material material_3(3, 0.2, 0.19);
 
   //   // for non-scattering simulation, use:
   //   Material material_1(1, 0, 0.8, 6.4);
@@ -21,7 +21,7 @@ int main() {
   // assumed for all sides.
 
   double target_cell_width =
-      0.5 * 1.25;  // take multiples of this to get a grid convergence study
+      1.25 / 16.0;  // take multiples of this to get a grid convergence study
 
   RectangularRegion region_1(material_3, -10, 10, 5, 10, target_cell_width);
 
@@ -50,10 +50,10 @@ int main() {
       region_1, region_2, region_3,  region_4,  region_5,  region_6, region_7,
       region_8, region_9, region_10, region_11, region_12, region_13};
 
-  Simulation ar_simulation(regions, 8);
+  Simulation ar_simulation(regions, 32);
   //   ar_simulation.ExportCellsToCSV();
   ar_simulation.Run();
-  ar_simulation.ExportResultsToCSV();
+  ar_simulation.ExportResultsToCSV("cell_fluxes_test_16.0.csv");
 
   return 0;
 }
