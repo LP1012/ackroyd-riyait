@@ -6,10 +6,10 @@
     \div \left(\psi\vec{A}\right)=\psi\div\vec{A}+\vec{A}\cdot\grad\psi
   \end{equation}
   Let $v=v(x,y,\theta,\varphi)$ be a test function.
-  Multiplying \cref{eq:even-parity-equation} by $v$, integrating over an angular and spatial element gives, and applying integration by parts gives the weak form:
+  Multiplying \cref{eq:even-parity-equation} by $v$, integrating over an angular and spatial element gives, and applying \cref{eq:vec-calc-identity} twice gives the weak form:
   \begin{multline}
     -\frac{1}{\sigt}\int_{\mathcal{A}}\oint_{\partial \tau}v\left(\ohat\cdot\grad{\psiplus}\right)\ohat\cdot\hat{n}\dd s+\frac{1}{\sigt}\intelems\left(\ohat\cdot\grad{\psiplus}\right)\left(\ohat\cdot\grad{v}\right)\elemdifs+\\+
-    \intelems\sigt\psiplus\elemdifs=\intelems vS(x,y)\elemdifs
+    \intelems\sigt\psiplus\elemdifs=\intelems vS\elemdifs
   \end{multline}
   where $\int_\tau$ is the integral over a triangular spatial element, $\int_\mathcal{A}$ is the integral over an angular element, and $\hat{n}$ is the unit normal vector on in the spatial domain.
 \end{frame}
@@ -27,8 +27,9 @@
   \end{subequations}
   and disregarding the $z-$ component (for 2D), we finally arrive at:
   \begin{multline}\label{eq:weak-form}
-    -\frac{1}{\sigt}\int_{\mathcal{A}}\oint_{\partial\tau}v\left(\mu\pdv{\psiplus}{x}+\eta\pdv{\psiplus}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat +\\+\intelems\left(\mu\pdv{\psiplus}{x}+\eta\pdv{\psiplus}{y}\right)\left(\mu\pdv{v}{x}+\eta\pdv{v}{y}\right)\elemdifs+\\
-    +\sigt\intelems v \psiplus\elemdifs=\intelems vS(x,y)\elemdifs
+    -\frac{1}{\sigt}\int_{\mathcal{A}}\oint_{\partial\tau}v\left(\mu\pdv{\psiplus}{x}+\eta\pdv{\psiplus}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat +\\+\frac{1}{\sigt}
+    \intelems\left(\mu\pdv{\psiplus}{x}+\eta\pdv{\psiplus}{y}\right)\left(\mu\pdv{v}{x}+\eta\pdv{v}{y}\right)\elemdifs+\\
+    +\sigt\intelems v \psiplus\elemdifs=\intelems vS\elemdifs
   \end{multline}
 \end{frame}
 
