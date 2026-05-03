@@ -77,21 +77,21 @@
 \begin{frame}[allowframebreaks]
   \frametitle{Kronecker Product}
   Want to rewrite \cref{eq:compact-fem} to leverage Kronecker products.
+  The streaming term requires some rearranging:
   \begin{subequations}
-    \begin{multline}
-      \frac{1}{\sigt}\intelems\sum_{i,j,m,n}\left(\mu^2\pdv{T_i}{x}\pdv{T_m}{x}+\eta^2\pdv{T_i}{y}\pdv{T_m}{y}+\mu\eta\pdv{T_i}{y}\pdv{T_m}{x}+\mu\eta\pdv{T_i}{x}\pdv{T_m}{y}\right)\times \\\times A_jA_n\psi_{ij} =\\=
-      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu^2A_jA_n\dd \ohat\int_\tau\pdv{T_i}{x}\pdv{T_m}{x}\dd\tau\right]\psi_{ij}+\\+
-      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\eta^2A_jA_n\dd \ohat\int_\tau\pdv{T_i}{y}\pdv{T_m}{y}\dd\tau\right]\psi_{ij}+\\+
-      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat\int_\tau\pdv{T_i}{x}\pdv{T_m}{y}\dd\tau\right]\psi_{ij}+\\+
-      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat\int_\tau\pdv{T_i}{y}\pdv{T_m}{x}\dd\tau\right]\psi_{ij}
-    \end{multline}
-
     \begin{multline}
       -\frac{1}{\sigt}\int_\mathcal{A}\oint_{\partial \tau}\sum_{i,j,m,n}A_jA_nT_m\left(\mu\pdv{T_i}{x}+\eta\pdv{T_i}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat\psi_{ij} = \\ =
       -\frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu^2A_jA_n\dd \ohat\oint_{\partial \tau}T_m\pdv{T_i}{x}n_x\dd s\right]\psi_{ij}+\\
       -\frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\eta^2A_jA_n\dd \ohat\oint_{\partial \tau}T_m\pdv{T_i}{y}n_y\dd s\right]\psi_{ij}+\\
       -\frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat\oint_{\partial \tau}T_m\pdv{T_i}{x}n_y\dd s\right]\psi_{ij}+\\
       -\frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat\oint_{\partial \tau}T_m\pdv{T_i}{y}n_x\dd s\right]\psi_{ij}
+    \end{multline}
+    \begin{multline}
+      \frac{1}{\sigt}\intelems\sum_{i,j,m,n}\left(\mu^2\pdv{T_i}{x}\pdv{T_m}{x}+\eta^2\pdv{T_i}{y}\pdv{T_m}{y}+\mu\eta\pdv{T_i}{y}\pdv{T_m}{x}+\mu\eta\pdv{T_i}{x}\pdv{T_m}{y}\right)\times \\\times A_jA_n\psi_{ij} =\\=
+      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu^2A_jA_n\dd \ohat\int_\tau\pdv{T_i}{x}\pdv{T_m}{x}\dd\tau\right]\psi_{ij}+\\+
+      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\eta^2A_jA_n\dd \ohat\int_\tau\pdv{T_i}{y}\pdv{T_m}{y}\dd\tau\right]\psi_{ij}+\\+
+      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat\int_\tau\pdv{T_i}{x}\pdv{T_m}{y}\dd\tau\right]\psi_{ij}+\\+
+      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat\int_\tau\pdv{T_i}{y}\pdv{T_m}{x}\dd\tau\right]\psi_{ij}
     \end{multline}
   \end{subequations}
 
