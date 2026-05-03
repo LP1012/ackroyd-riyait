@@ -16,15 +16,13 @@
 
 \begin{frame}
   \frametitle{Weak Form}
-  Noting the following definitions:
-  \begin{subequations}
-    \begin{equation}
-      \ohat\cdot\grad{\psiplus}=\mu\pdv{\psiplus}{x}+\eta\pdv{\psiplus}{y}+\xi\pdv{\psiplus}{z}
-    \end{equation}
-    \begin{equation}
-      \ohat=\left(\underbrace{\cos\varphi}_\mu,\underbrace{\cos\theta\sin\varphi}_\eta,\underbrace{\sin\theta\sin\varphi}_\xi\right)
-    \end{equation}
-  \end{subequations}
+  Noting the following definitions for $\theta\in[0,pi]$, $\varphi\in[0,\pi/2]$:
+  \begin{equation}
+    \ohat\cdot\grad{\psiplus}=\mu\pdv{\psiplus}{x}+\eta\pdv{\psiplus}{y}+\xi\pdv{\psiplus}{z}
+  \end{equation}
+  \begin{equation}
+    \ohat=\left(\underbrace{\cos\varphi}_\mu,\underbrace{\cos\theta\sin\varphi}_\eta,\underbrace{\sin\theta\sin\varphi}_\xi\right)
+  \end{equation}
   and disregarding the $z-$ component (for 2D), we finally arrive at:
   \begin{multline}\label{eq:weak-form}
     -\frac{1}{\sigt}\int_{\mathcal{A}}\oint_{\partial\tau}v\left(\mu\pdv{\psiplus}{x}+\eta\pdv{\psiplus}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat +\\+\frac{1}{\sigt}
@@ -58,7 +56,7 @@
   where $m\in[1,n_t]$, $n\in[1,n_a]$.
   Inserting \cref{eq:galerkin-test-function} into \cref{eq:function-exp-fem} gives:
   \begin{multline}
-    -\frac{1}{\sigt}\int_\mathcal{A}\oint_{\partial \tau}\sum_i\sum_j\sum_m\sum_n A_nA_j T_m\left(\mu\pdv{T_i}{x}+\eta\pdv{T_i}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat+\\+
+    -\frac{1}{\sigt}\int_\mathcal{A}\oint_{\partial \tau}\sum_i\sum_j\sum_m\sum_n A_nA_j T_m\left(\mu\pdv{T_i}{x}+\eta\pdv{T_i}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat\psi_{ij}+\\+
     \frac{1}{\sigt}\intelems\sum_i\sum_j\sum_m\sum_n\left(\mu^2\pdv{T_i}{x}\pdv{T_m}{x}+\eta^2\pdv{T_i}{y}\pdv{T_m}{y}+\mu\eta\pdv{T_i}{y}\pdv{T_m}{x}+\mu\eta\pdv{T_i}{x}\pdv{T_m}{y}\right)\times\\\times
     A_jA_n\psi_{ij}+\sigt\int_{\mathcal{A}}\sum_n\sum_jA_nA_j\dd\ohat\int_\tau\sum_m\sum_iT_mT_i\dd\tau\psi_{ij}=\\=
     \int_\mathcal{A}\sum_nA_n\dd \ohat\int_\tau\sum_mT_mS\dd\tau
@@ -68,10 +66,102 @@
 \begin{frame}
   \frametitle{Galerkin Method}
   Or, more compactly:
-  \begin{multline}
-    -\frac{1}{\sigt}\int_\mathcal{A}\oint_{\partial \tau}\sum_{i,j,m,n}A_jA_nT_m\left(\mu\pdv{T_i}{x}+\eta\pdv{T_i}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat+\\+
+  \begin{multline}\label{eq:compact-fem}
+    -\frac{1}{\sigt}\int_\mathcal{A}\oint_{\partial \tau}\sum_{i,j,m,n}A_jA_nT_m\left(\mu\pdv{T_i}{x}+\eta\pdv{T_i}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat\psi_{ij}+\\+
     \frac{1}{\sigt}\intelems\sum_{i,j,m,n}\left(\mu^2\pdv{T_i}{x}\pdv{T_m}{x}+\eta^2\pdv{T_i}{y}\pdv{T_m}{y}+\mu\eta\pdv{T_i}{y}\pdv{T_m}{x}+\mu\eta\pdv{T_i}{x}\pdv{T_m}{y}\right)\times \\\times A_jA_n\psi_{ij}+
     \sigt\int_\mathcal{A}\sum_{j,n}A_jA_n\dd\ohat\int_\tau\sum_{i,m}T_mT_i\dd\tau\psi_{ij}=\\=
     \int_\mathcal{A}\sum_nA_n\dd \ohat\int_\tau\sum_mT_mS\dd\tau
   \end{multline}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Kronecker Product}
+  Want to rewrite \cref{eq:compact-fem} to leverage Kronecker products.
+  \begin{subequations}
+    \begin{multline}
+      \frac{1}{\sigt}\intelems\sum_{i,j,m,n}\left(\mu^2\pdv{T_i}{x}\pdv{T_m}{x}+\eta^2\pdv{T_i}{y}\pdv{T_m}{y}+\mu\eta\pdv{T_i}{y}\pdv{T_m}{x}+\mu\eta\pdv{T_i}{x}\pdv{T_m}{y}\right)\times \\\times A_jA_n\psi_{ij} =\\=
+      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu^2A_jA_n\dd \ohat\int_\tau\pdv{T_i}{x}\pdv{T_m}{x}\dd\tau\right]\psi_{ij}+\\+
+      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\eta^2A_jA_n\dd \ohat\int_\tau\pdv{T_i}{y}\pdv{T_m}{y}\dd\tau\right]\psi_{ij}+\\+
+      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat\int_\tau\pdv{T_i}{x}\pdv{T_m}{y}\dd\tau\right]\psi_{ij}+\\+
+      \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat\int_\tau\pdv{T_i}{y}\pdv{T_m}{x}\dd\tau\right]\psi_{ij}
+    \end{multline}
+
+    \begin{multline}
+      -\frac{1}{\sigt}\int_\mathcal{A}\oint_{\partial \tau}\sum_{i,j,m,n}A_jA_nT_m\left(\mu\pdv{T_i}{x}+\eta\pdv{T_i}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat\psi_{ij} = \\ =
+      -\frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu^2A_jA_n\dd \ohat\oint_{\partial \tau}T_m\pdv{T_i}{x}n_x\dd s\right]\psi_{ij}+\\
+      -\frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\eta^2A_jA_n\dd \ohat\oint_{\partial \tau}T_m\pdv{T_i}{y}n_y\dd s\right]\psi_{ij}+\\
+      -\frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat\oint_{\partial \tau}T_m\pdv{T_i}{x}n_y\dd s\right]\psi_{ij}+\\
+      -\frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat\oint_{\partial \tau}T_m\pdv{T_i}{y}n_x\dd s\right]\psi_{ij}
+    \end{multline}
+  \end{subequations}
+
+  Let:
+  \begin{subequations}
+    \begin{equation}
+      \left[K_{\mu\mu}\right]_{jn}=\int_\mathcal{A}\mu^2A_jA_n\dd \ohat
+    \end{equation}
+    \begin{equation}
+      \left[K_{\eta\eta}\right]_{jn}=\int_\mathcal{A}\eta^2A_jA_n\dd \ohat
+    \end{equation}
+    \begin{equation}
+      \left[K_{\mu\eta}\right]_{jn}=\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat
+    \end{equation}
+  \end{subequations}
+  then:
+  \begin{subequations}
+    \begin{equation}
+      \left[M_{xx}\right]_{im} =\int_\tau\pdv{T_i}{x}\pdv{T_m}{x}\dd\tau
+    \end{equation}
+    \begin{equation}
+      \left[M_{yy}\right]_{im} =\int_\tau\pdv{T_i}{y}\pdv{T_m}{y}\dd\tau
+    \end{equation}
+    \begin{equation}
+      \left[M_{xy}\right]_{im} =\int_\tau\pdv{T_i}{x}\pdv{T_m}{y}\dd\tau
+    \end{equation}
+    \begin{equation}
+      \left[M_{yx}\right]_{im} =\int_\tau\pdv{T_i}{y}\pdv{T_m}{x}\dd\tau
+    \end{equation}
+  \end{subequations}
+  with:
+  \begin{subequations}
+    \begin{equation}
+      \left[B_{xx}\right]_{im}=\oint_{\partial \tau}T_m\pdv{T_i}{x}n_x\dd s
+    \end{equation}
+    \begin{equation}
+      \left[B_{yy}\right]_{im}=\oint_{\partial \tau}T_m\pdv{T_i}{y}n_y\dd s
+    \end{equation}
+    \begin{equation}
+      \left[B_{xy}\right]_{im}=\oint_{\partial \tau}T_m\pdv{T_i}{x}n_y\dd s
+    \end{equation}
+    \begin{equation}
+      \left[B_{yx}\right]_{im}=\oint_{\partial \tau}T_m\pdv{T_i}{y}n_x\dd s
+    \end{equation}
+  \end{subequations}
+  and finally:
+  \begin{subequations}
+    \begin{equation}
+      \left[K\right]_{jn}=\int_\mathcal{A}A_jA_n\dd\ohat
+    \end{equation}
+    \begin{equation}
+      \left[M\right]_{im}=\int_\tau T_mT_i\dd\tau
+    \end{equation}
+    \begin{equation}
+      \vec{A}_n=\int_\mathcal{A}A_n\dd\ohat
+    \end{equation}
+    \begin{equation}
+      \vec{S}_m=\int_\tau T_m S\dd\tau
+    \end{equation}
+    \begin{equation}
+      \left[\Psi\right]_{ij}=\psi_{ij}
+    \end{equation}
+  \end{subequations}
+
+  Combining these all into \cref{eq:compact-fem} gives:
+  \begin{multline}
+    -\frac{1}{\sigt}\left[K_{\mu\mu}\otimes B_{xx}+K_{\eta\eta}\otimes B_{yy}+K_{\mu\eta}\otimes B_{xy}+K_{\mu\eta}\otimes B_{yx}\right]\Psi +\\+
+    \frac{1}{\sigt}\left[K_{\mu\mu}\otimes M_{xx}+K_{\eta\eta}\otimes M_{yy}+_{\mu\eta}\otimes M_{xy}+K_{\mu\eta}\otimes M_{yx}\right]\Psi+\\+
+    \sigt K\otimes M\Psi = \vec{A}\otimes\vec{S}
+  \end{multline}
+  where $\otimes$ is the Kronecker (Zehfuss) product for matrices and the outer product for vectors.
+
 \end{frame}
