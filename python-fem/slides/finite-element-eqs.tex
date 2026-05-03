@@ -1,0 +1,68 @@
+\begin{frame}
+  \frametitle{Weak Form}
+  Note the following vector calculus identity for a scalar function $\psi$ and vector $\vec{A}$:
+  \begin{equation}
+    \label{eq:vec-calc-identity}
+    \div \left(\psi\vec{A}\right)=\psi\div\vec{A}+\vec{A}\cdot\grad\psi
+  \end{equation}
+  Let $v=v(x,y,\theta,\varphi)$ be a test function.
+  Multiplying \cref{eq:even-parity-equation} by $v$, integrating over an angular and spatial element gives, and applying integration by parts gives the weak form:
+  \begin{multline}
+    -\frac{1}{\sigt}\int_{\mathcal{A}}\oint_{\partial \tau}v\left(\ohat\cdot\grad{\psiplus}\right)\ohat\cdot\hat{n}\dd s+\frac{1}{\sigt}\intelems\left(\ohat\cdot\grad{\psiplus}\right)\left(\ohat\cdot\grad{v}\right)\elemdifs+\\+
+    \intelems\sigt\psiplus\elemdifs=\intelems vS(x,y)\elemdifs
+  \end{multline}
+  where $\int_\tau$ is the integral over a triangular spatial element, $\int_\mathcal{A}$ is the integral over an angular element, and $\hat{n}$ is the unit normal vector on in the spatial domain.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Weak Form}
+  Noting the following definitions:
+  \begin{subequations}
+    \begin{equation}
+      \ohat\cdot\grad{\psiplus}=\mu\pdv{\psiplus}{x}+\eta\pdv{\psiplus}{y}+\xi\pdv{\psiplus}{z}
+    \end{equation}
+    \begin{equation}
+      \ohat=\left(\underbrace{\cos\varphi}_\mu,\underbrace{\cos\theta\sin\varphi}_\eta,\underbrace{\sin\theta\sin\varphi}_\xi\right)
+    \end{equation}
+  \end{subequations}
+  and disregarding the $z-$ component (for 2D), we finally arrive at:
+  \begin{multline}\label{eq:weak-form}
+    -\frac{1}{\sigt}\int_{\mathcal{A}}\oint_{\partial\tau}v\left(\mu\pdv{\psiplus}{x}+\eta\pdv{\psiplus}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat +\\+\intelems\left(\mu\pdv{\psiplus}{x}+\eta\pdv{\psiplus}{y}\right)\left(\mu\pdv{v}{x}+\eta\pdv{v}{y}\right)\elemdifs+\\
+    +\sigt\intelems v \psiplus\elemdifs=\intelems vS(x,y)\elemdifs
+  \end{multline}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Function Approximation}
+  Let
+  \begin{equation}
+    \label{eq:function-approx}
+    \psiplus \left(x,y,\theta,\varphi\right)\approx\sum_i\sum_j \psi_{ij}T_i(x,y)A_j(\theta,\varphi)
+  \end{equation}
+  for $i\in[1,n_t]$ for $n_t$ triangles in space, $j\in[1,n_a]$ for $n_a$ elements in solid angle.
+  Inserting \cref{eq:function-approx} into \cref{eq:weak-form} and combining summations gives:
+  \begin{multline}\label{eq:function-exp-fem}
+    -\frac{1}{\sigt}
+  \end{multline}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Galerkin Method}
+  For the test function, we choose the same basis functions as in \cref{eq:function-approx}:
+  \begin{equation}\label{eq:galerkin-test-function}
+    v(x,y,\theta,\vartheta)=\sum_m\sum_n T_m(x,y)A_n(\theta,\varphi)
+  \end{equation}
+  where $m\in[1,n_t]$, $n\in[1,n_a]$.
+  Inserting \cref{eq:galerkin-test-function} into \cref{eq:function-exp-fem} gives:
+  \begin{multline}
+    -\frac{1}{\sigt}
+  \end{multline}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Galerkin Method}
+  Or, more neatly:
+  \begin{multline}
+    -\frac{1}{\sigt}
+  \end{multline}
+\end{frame}

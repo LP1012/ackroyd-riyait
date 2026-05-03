@@ -1,0 +1,36 @@
+\begin{frame}
+        \frametitle{Neutron Transport Equation}
+        The general linear \gls{bte} with an isotropic external source is~\cite{Larsen2010}:
+        \begin{multline}\label{eq:general-bte}
+                \frac{1}{v}\pdv{\psifull}{t} + \ohat\cdot \grad \psifull+\Sigma_t\left(\rvec,E\right)\psifull=\\= \int_{0}^{\infty}\int_{4\pi}\Sigma_s \left(\rvec,\ohat'\cdot \ohat,E'\rightarrow E\right)\psifullprime\dd \ohat' \dd E' +\\+ \frac{\chi \left(\rvec,E\right)}{4\pi }\int_{0}^\infty \int_{4\pi}\nu \Sigma_f \left(\rvec,E'\right)\psifullprime \dd \ohat ' \dd E' +\frac{Q\left(\rvec,E,t\right)}{4\pi}
+        \end{multline}
+        where $\psifull$ is the \textit{neutron angular flux}, $\ohat$ is the \textit{solid angle}, $E$ is the energy, $t$ is the time, $\rvec$ is the position vector, $\Sigma_s \left(\rvec,\ohat'\cdot \ohat,E'\rightarrow E\right)$ is the \textit{double-differential scattering cross section}, $\chi \left(\rvec,E\right)$ is the \textit{fission-born neutron energy spectrum}, $\nu$ is the \textit{average number of neutrons born per fission event}, $\Sigma_f$ is the \textit{macroscopic fission cross section}, and $Q\left(\rvec,E,t\right)$ is the \textit{independent isotropic neutron source}.
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+        \frametitle{Neutron Transport Equation}
+        Each of the above terms has a physical significance and represent a conservation law.
+        The losses are:
+        \begin{subequations}
+                \begin{equation}\label{eq:time-dep-term}
+                        \frac{1}{v}\pdv{\psifull}{t} = \text{Time-dependence of angular flux}
+                \end{equation}
+                \begin{equation}\label{eq:streaming-term}
+                        \ohat\cdot \grad \psifull = \text{Neutron loss to streaming}
+                \end{equation}
+                \begin{multline}\label{eq:interaction-term}
+                        \Sigma_t\left(\rvec,E\right)\psifull \\= \text{Neutron losses to interactions with surroundings}
+                \end{multline}
+                The sources are:
+                \begin{multline} \label{eq:inscattering-term}
+                        \int_{0}^{\infty}\int_{4\pi}\Sigma_s \left(\rvec,\ohat'\cdot \ohat,E'\rightarrow E\right)\psifullprime\dd \ohat' \dd E' \\= \text{Inscatter source}
+                \end{multline}
+                \begin{equation} \label{eq:fission-term}
+                        \frac{\chi \left(\rvec,E\right)}{4\pi }\int_{0}^\infty \int_{4\pi}\nu \Sigma_f \left(\rvec,E'\right)\psifullprime \dd \ohat ' \dd E' = \text{Fission source}
+                \end{equation}
+                \begin{equation} \label{eq:indep-source-term}
+                        \frac{Q\left(\rvec,E,t\right)}{4\pi} = \text{Independent volumetric, isotropic source}
+                \end{equation}
+        \end{subequations}
+\end{frame}
+

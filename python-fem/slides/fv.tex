@@ -1,0 +1,18 @@
+\begin{frame}[allowframebreaks]
+  \frametitle{Finite Volume Equations}
+  By standard finite-volume procedure, we first integrate \cref{eq:sn-equations} over a unit cell, then perform a change of variables such that:
+  \begin{align}
+    \frac{1}{V}\int_{V}\psi_{mn}\left(\rvec\right) & \rightarrow \psi_{mn}^{ij} \\
+    \frac{1}{V}\int_{V}\phi\left(\rvec\right)      & \rightarrow \phi^{ij}      \\
+    \frac{1}{V}\int_{V}Q\left(\rvec\right)         & \rightarrow Q^{ij}         \\
+    \frac{1}{V}\int_{V}\Sigma_t\left(\rvec\right)  & \rightarrow \Sigma_t^{ij}  \\
+    \frac{1}{V}\int_{V}\Sigma_s\left(\rvec\right)  & \rightarrow \Sigma_s^{ij}
+  \end{align}
+  where $V$ is the cell volume, and the indices $ij$ indicate the $i,j$-th cell.
+  Note that in applying the above, we have assumed the solution to be slowly-varying over each cell, and thus approximate the cell-centered value as a \textit{constant}.
+  This leaves:
+  \begin{multline}\label{eq:fv-eqs}
+    \frac{\mu_{m}}{h_x}\left(\psi_{mn}^{i+1/2,j}-\psi_{mn}^{i-1/2,j}\right)+\frac{\eta_{n}}{h_y}\left(\psi_{mn}^{i,j+1/2}\-\psi_{mn}^{i,j-1/2}\right) + \Sigma_t ^{ij}\psi_{mn}^{ij} =\\=\frac{\Sigma_s^{ij}}{4\pi}\phi^{ij} + \frac{Q^{ij}}{4\pi}
+  \end{multline}
+  where $\psi_{mn}^{i\pm1/2,j}$ and $\psi_{mn}^{i,j\pm1/2}$ are the cell boundary fluxes for the $i,j$-th cell along the $x$- and $y$- directions, respectively.
+\end{frame}

@@ -1,0 +1,20 @@
+\resizebox{!}{5cm}{
+  \begin{tikzpicture}
+    \centering
+    \node (start) [startstop] {Start};
+    \node (set_zeros) [process, right=1.75cm of start] {Set scalar flux to 0.};
+    \node (sweep) [process, right=1.75cm of set_zeros] {Perform transport sweep.};
+    \node (update) [process, right=2cm of sweep] {Update scalar flux.};
+    \node (converged) [decision, below=1.9cm of update] {Scalar flux has converged};
+    \node (update_source) [process, left=1.5cm of converged] {Update inscatter source.};
+    \node (end) [startstop, below=2cm of converged] {End};
+
+    \draw [arrow] (start) -- (set_zeros);
+    \draw [arrow] (set_zeros) -- (sweep);
+    \draw [arrow] (sweep) -- (update);
+    \draw [arrow] (update) -- (converged);
+    \draw [arrow] (converged) -- node[anchor=west] {yes} (end);
+    \draw [arrow] (converged) -- node[anchor=south] {no} (update_source);
+    \draw [arrow] (update_source) -- (sweep);
+  \end{tikzpicture}
+}
