@@ -9,7 +9,7 @@
   Multiplying \cref{eq:even-parity-equation} by $v$, integrating over an angular and spatial element gives, and applying \cref{eq:vec-calc-identity} twice gives the weak form:
   \begin{multline}
     -\frac{1}{\sigt}\int_{\mathcal{A}}\oint_{\partial \tau}v\left(\ohat\cdot\grad{\psiplus}\right)\ohat\cdot\hat{n}\dd s+\frac{1}{\sigt}\intelems\left(\ohat\cdot\grad{\psiplus}\right)\left(\ohat\cdot\grad{v}\right)\elemdifs+\\+
-    \intelems\sigt\psiplus\elemdifs=\intelems vS\elemdifs
+    \intelems v\sigt \psiplus\elemdifs=\intelems vS\elemdifs
   \end{multline}
   where $\int_\tau$ is the integral over a triangular spatial element, $\int_\mathcal{A}$ is the integral over an angular element, and $\hat{n}$ is the unit normal vector on in the spatial domain.
 \end{frame}
@@ -43,7 +43,9 @@
   for $i\in[1,n_t]$ for $n_t$ triangles in space, $j\in[1,n_a]$ for $n_a$ elements in solid angle.
   Inserting \cref{eq:function-approx} into \cref{eq:weak-form} and combining summations gives:
   \begin{multline}\label{eq:function-exp-fem}
-    -\frac{1}{\sigt}
+    -\frac{1}{\sigt}\int_\mathcal{A}\oint_{\partial \tau}v\left[\sum_i\left(\mu\pdv{T_i}{x}+\eta\pdv{T_i}{y}\right)\sum_jA_j\psi_{ij}\right]\ohat\cdot\hat{n}\dd s\dd\ohat+\\+
+    \frac{1}{\sigt}\intelems \left(\sum_i\left(\mu\pdv{T_i}{x}+\eta\pdv{T_i}{y}\right)\sum_jA_j\psi_{ij}\right)\left(\mu\pdv{v}{x}+\eta\pdv{v}{y}\right)\elemdifs+\\+
+    \sigt\intelems v\sum_i T_i \sum_jA_j \psi_{ij}\elemdifs = \intelems vS\elemdifs
   \end{multline}
 \end{frame}
 
@@ -51,19 +53,25 @@
   \frametitle{Galerkin Method}
   For the test function, we choose the same basis functions as in \cref{eq:function-approx}:
   \begin{equation}\label{eq:galerkin-test-function}
-    v(x,y,\theta,\vartheta)=\sum_m\sum_n T_m(x,y)A_n(\theta,\varphi)
+    v(x,y,\theta,\varphi)=\sum_m\sum_n T_m(x,y)A_n(\theta,\varphi)
   \end{equation}
   where $m\in[1,n_t]$, $n\in[1,n_a]$.
   Inserting \cref{eq:galerkin-test-function} into \cref{eq:function-exp-fem} gives:
   \begin{multline}
-    -\frac{1}{\sigt}
+    -\frac{1}{\sigt}\int_\mathcal{A}\oint_{\partial \tau}\sum_i\sum_j\sum_m\sum_n A_nA_j T_m\left(\mu\pdv{T_i}{x}+\eta\pdv{T_i}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat+\\+
+    \frac{1}{\sigt}\intelems\sum_i\sum_j\sum_m\sum_n\left(\mu^2\pdv{T_i}{x}\pdv{T_m}{x}+\eta^2\pdv{T_i}{y}\pdv{T_m}{y}+\mu\eta\pdv{T_i}{y}\pdv{T_m}{x}+\mu\eta\pdv{T_i}{x}\pdv{T_m}{y}\right)\times\\\times
+    A_jA_n\psi_{ij}+\sigt\int_{\mathcal{A}}\sum_n\sum_jA_nA_j\dd\ohat\int_\tau\sum_m\sum_iT_mT_i\dd\tau\psi_{ij}=\\=
+    \int_\mathcal{A}\sum_nA_n\dd \ohat\int_\tau\sum_mT_mS\dd\tau
   \end{multline}
 \end{frame}
 
 \begin{frame}
   \frametitle{Galerkin Method}
-  Or, more neatly:
+  Or, more compactly:
   \begin{multline}
-    -\frac{1}{\sigt}
+    -\frac{1}{\sigt}\int_\mathcal{A}\oint_{\partial \tau}\sum_{i,j,m,n}A_jA_nT_m\left(\mu\pdv{T_i}{x}+\eta\pdv{T_i}{y}\right)\ohat\cdot\hat{n}\dd s\dd\ohat+\\+
+    \frac{1}{\sigt}\intelems\sum_{i,j,m,n}\left(\mu^2\pdv{T_i}{x}\pdv{T_m}{x}+\eta^2\pdv{T_i}{y}\pdv{T_m}{y}+\mu\eta\pdv{T_i}{y}\pdv{T_m}{x}+\mu\eta\pdv{T_i}{x}\pdv{T_m}{y}\right)\times \\\times A_jA_n\psi_{ij}+
+    \sigt\int_\mathcal{A}\sum_{j,n}A_jA_n\dd\ohat\int_\tau\sum_{i,m}T_mT_i\dd\tau\psi_{ij}=\\=
+    \int_\mathcal{A}\sum_nA_n\dd \ohat\int_\tau\sum_mT_mS\dd\tau
   \end{multline}
 \end{frame}
