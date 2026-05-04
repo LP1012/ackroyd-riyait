@@ -192,6 +192,15 @@ def A_integrand(xi, eta, n, vertices, det_jacobian):
     return LinearBasis(xi, eta, n) * det_jacobian * np.sin(phi)
 
 
+# to do:
+# - write methods for local matrix creation
+# - write methods to evaluate boundary integrals (must always be positive)
+# - global matrix assembly
+# - material properties (total cross section, scattering cross section, source)
+# - scalar flux computation
+# - source iteration
+
+
 spatial_mesh = meshio.read("../gmsh/square-source.msh")
 angle_mesh = meshio.read("../gmsh/solid-angle.msh")
 
