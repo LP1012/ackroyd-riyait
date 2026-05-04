@@ -11,3 +11,11 @@ BooleanFragments{Surface{1, 2, 3}; Delete;}{}
 Physical Surface("material") = {5};
 Physical Surface("void") = {4};
 Physical Surface("source") = {3};
+//+
+Physical Curve("west", 13) = {7, 3, 11};
+//+
+Physical Curve("north", 14) = {8};
+//+
+Physical Curve("east", 15) = {9};
+//+
+Physical Curve("south", 16) = {10, 6, 12};
