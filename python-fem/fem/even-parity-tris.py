@@ -175,7 +175,7 @@ def M_matrix(verices):
     return (area / 6) * np.array([[2, 1, 1], [1, 2, 1], [1, 1, 2]], dtype=float)
 
 
-def K(n, vertices, det_jacobian):
+def A(n, vertices, det_jacobian):
     result = dblquad(
         A_integrand,
         0,
