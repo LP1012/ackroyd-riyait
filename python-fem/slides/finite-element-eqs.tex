@@ -27,8 +27,9 @@
   \Cref{eq:reflect-bc} is trivially satisfied by the weak form, so it will not need further discussion.
   Inserting \cref{eq:vacuum-bc} into \cref{eq:general-weak-form}'s boundary condition gives:
   \begin{equation}
-    \pm \int_\mathcal{A}\oint_{\partial\tau_v}v\psiplus\ohat\cdot\hat{n}\dd s\dd \ohat
+    -\frac{1}{\sigt}\int_{\mathcal{A}}\oint_{\partial \tau}v\left(\ohat\cdot\grad{\psiplus}\right)\ohat\cdot\hat{n}\dd s\dd\ohat=\pm \int_\mathcal{A}\oint_{\partial\tau_v}v\psiplus\left(\ohat\cdot\hat{n}\right)\dd s\dd \ohat
   \end{equation}
+  Notice that the sign in the boundary term is guaranteed to be positive.
 
 \end{frame}
 
@@ -90,6 +91,18 @@
     \sigt\int_\mathcal{A}\sum_{j,n}A_jA_n\dd\ohat\int_\tau\sum_{i,m}T_mT_i\dd\tau\psi_{ij}=\\=
     \int_\mathcal{A}\sum_nA_n\dd \ohat\int_\tau\sum_mT_mS\dd\tau
   \end{multline}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Source Term}
+  The source term, $S$, up until this point has been left rather ambiguous.
+  Inserting the definition in \cref{eq:fully-simplified-bte} into the source integral term from \cref{eq:compact-fem}:
+  \begin{multline}
+    \int_\mathcal{A}\sum_nA_n\dd \ohat\int_\tau\sum_mT_mS\dd\tau =
+    \frac{1}{4\pi}\sum_{i,j,m,n}\left[\Sigma_{s,i}\int_\tau T_iT_m\dd\tau\int_\mathcal{A} A_jA_n\dd\ohat \psi_{ij}\right]+\\+
+    \frac{1}{4\pi}\sum_{m,n} \left[Q_m\int_\tau  T_m\dd\tau\int_\mathcal{A}A_n\dd\ohat\right]
+  \end{multline}
+  where we have approximated the scattering cross section and volumetric source to be constant within the spatial element.
 \end{frame}
 
 \begin{frame}[allowframebreaks]
@@ -173,10 +186,13 @@
       \left[M\right]_{im}=\int_\tau T_mT_i\dd\tau
     \end{equation}
     \begin{equation}
-      \vec{A}_n=\int_\mathcal{A}A_n\dd\ohat
+      \left[S\right]_{im}=\frac{\Sigma_{s,i}}{4\pi}\int_\tau T_iT_m\dd\tau
     \end{equation}
     \begin{equation}
-      \vec{S}_m=\int_\tau T_m S\dd\tau
+      \vec{Q}_m=\frac{Q_m}{4\pi}\int_\tau T_m\dd\tau
+    \end{equation}
+    \begin{equation}
+      \vec{A}_n=\int_\mathcal{A}A_n\dd\ohat
     \end{equation}
     \begin{equation}
       \left[\Psi\right]_{ij}=\psi_{ij}
@@ -188,7 +204,7 @@
   \begin{multline}
     \left[B_\mu\otimes B_x+B_\eta\otimes B_y\right]\Psi +\\+
     \frac{1}{\sigt}\left[K_{\mu\mu}\otimes M_{xx}+K_{\eta\eta}\otimes M_{yy}+K_{\mu\eta}\otimes M_{xy}+K_{\mu\eta}\otimes M_{yx}\right]\Psi+\\+
-    \sigt K\otimes M\Psi = \vec{A}\otimes\vec{S}
+    \sigt K\otimes M\Psi = \left[S\otimes K\right]\Psi+\vec{Q}\otimes \vec{A}
   \end{multline}
   where $\otimes$ is the Kronecker (Zehfuss) product for matrices and the outer product for vectors.
 
