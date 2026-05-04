@@ -99,7 +99,7 @@
   Inserting the definition in \cref{eq:fully-simplified-bte} into the source integral term from \cref{eq:compact-fem}:
   \begin{multline}
     \int_\mathcal{A}\sum_nA_n\dd \ohat\int_\tau\sum_mT_mS\dd\tau =
-    \frac{1}{4\pi}\sum_{i,j,m,n}\left[\Sigma_{s,i}\int_\tau T_iT_m\dd\tau\int_\mathcal{A} A_jA_n\dd\ohat \psi_{ij}\right]+\\+
+    \frac{1}{4\pi}\sum_{i,j,m,n}\left[\Sigma_{s,i}\int_\tau T_iT_m\dd\tau\int_\mathcal{A} A_j\dd\ohat \int_\mathcal{A} A_n\dd\ohat \psi_{ij}\right]+\\+
     \frac{1}{4\pi}\sum_{m,n} \left[Q_m\int_\tau  T_m\dd\tau\int_\mathcal{A}A_n\dd\ohat\right]
   \end{multline}
   where we have approximated the scattering cross section and volumetric source to be constant within the spatial element.
@@ -195,6 +195,9 @@
       \vec{A}_n=\int_\mathcal{A}A_n\dd\ohat
     \end{equation}
     \begin{equation}
+      \vec{C}_j=\int_\mathcal{A}A_j\dd\ohat
+    \end{equation}
+    \begin{equation}
       \left[\Psi\right]_{ij}=\psi_{ij}
     \end{equation}
   \end{subequations}
@@ -204,7 +207,7 @@
   \begin{multline}
     \left[B_\mu\otimes B_x+B_\eta\otimes B_y\right]\Psi +\\+
     \frac{1}{\sigt}\left[K_{\mu\mu}\otimes M_{xx}+K_{\eta\eta}\otimes M_{yy}+K_{\mu\eta}\otimes M_{xy}+K_{\mu\eta}\otimes M_{yx}\right]\Psi+\\+
-    \sigt K\otimes M\Psi = \left[S\otimes K\right]\Psi+\vec{Q}\otimes \vec{A}
+    \sigt K\otimes M\Psi = \left[S\otimes \left(\vec{C}\otimes\vec{A}\right)\right]\Psi+\vec{Q}\otimes \vec{A}
   \end{multline}
   where $\otimes$ is the Kronecker (Zehfuss) product for matrices and the outer product for vectors.
 
