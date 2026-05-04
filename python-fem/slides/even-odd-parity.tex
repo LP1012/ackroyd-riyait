@@ -1,7 +1,17 @@
 \begin{frame}
   \frametitle{Even-Parity Equation}
-
+  We define the even and odd parity angular fluxes as (omitting all parameters except the solid angle for brevity):
+  \begin{subequations}
+    \begin{equation}
+      \psiplus \left(\ohat\right) \equiv \frac{1}{2}\left[\psi\left(\ohat\right)+\psi\left(-\ohat\right)\right]
+    \end{equation}
+    \begin{equation}
+      \psi^- \left(\ohat\right)\equiv \frac{1}{2}\left[\psi\left(\ohat\right)-\psi\left(-\ohat\right)\right]
+    \end{equation}
+  \end{subequations}
+  Writing \cref{eq:fully-simplified-bte} for $+\ohat$ and $-\ohat$ and eliminating the odd parity flux gives the even-parity transport equation:
   \begin{equation}\label{eq:even-parity-equation}
-    -\ohat \cdot \grad \left(\frac{1}{\Sigma_t}\ohat\cdot\grad\psiplus\right)+\Sigma_t\psiplus=S
+    -\ohat \cdot \grad \left(\frac{1}{\Sigma_t}\ohat\cdot\grad\psiplus\right)+\Sigma_t\psiplus=S\left(\mathbf{r}\right),\quad \theta\in [0,\pi], \varphi\in [0,\pi/2]
   \end{equation}
+  \Cref{eq:even-parity-equation} is self-adjoint, and the angular solution need only be solved for over a quarter of the unit sphere.
 \end{frame}
