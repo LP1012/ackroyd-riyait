@@ -95,13 +95,17 @@
 \begin{frame}[allowframebreaks]
   \frametitle{Kronecker Product}
   Want to rewrite \cref{eq:compact-fem} to leverage Kronecker products.
-  The streaming term requires some rearranging:
+  The streaming term requires some rearranging.
+  Beginning with the boundary term:
   \begin{subequations}
     \begin{multline}
       \pm\int_\mathcal{A}\oint_{\partial \tau}\sum_{i,j,m,n}A_jA_n T_i T_m\left(\mu n_x+\eta n_y\right)\dd s\dd\ohat \psi_{ij}= \\ =
       \pm\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu A_jA_n\dd\ohat\oint_{\partial \tau_v}T_iT_m n_x\dd s\right]\psi_{ij}+\\
       \pm\sum_{i,j,m,n}\left[\int_\mathcal{A}\eta A_jA_n\dd\ohat\oint_{\partial \tau_v}T_iT_m n_y\dd s\right]\psi_{ij}
     \end{multline}
+    \framebreak
+
+    Now the cell term:
     \begin{multline}
       \frac{1}{\sigt}\intelems\sum_{i,j,m,n}\left(\mu^2\pdv{T_i}{x}\pdv{T_m}{x}+\eta^2\pdv{T_i}{y}\pdv{T_m}{y}+\mu\eta\pdv{T_i}{y}\pdv{T_m}{x}+\mu\eta\pdv{T_i}{x}\pdv{T_m}{y}\right)\times \\\times A_jA_n\psi_{ij} =\\=
       \frac{1}{\sigt}\sum_{i,j,m,n}\left[\int_\mathcal{A}\mu^2A_jA_n\dd \ohat\int_\tau\pdv{T_i}{x}\pdv{T_m}{x}\dd\tau\right]\psi_{ij}+\\+
@@ -111,6 +115,7 @@
     \end{multline}
   \end{subequations}
 
+  \framebreak
   Let:
   \begin{subequations}
     \begin{equation}
@@ -123,6 +128,8 @@
       \left[K_{\mu\eta}\right]_{jn}=\int_\mathcal{A}\mu\eta A_jA_n\dd \ohat
     \end{equation}
   \end{subequations}
+  \framebreak
+
   then:
   \begin{subequations}
     \begin{equation}
@@ -138,6 +145,8 @@
       \left[M_{yx}\right]_{im} =\int_\tau\pdv{T_i}{y}\pdv{T_m}{x}\dd\tau
     \end{equation}
   \end{subequations}
+  \framebreak
+
   with:
   \begin{subequations}
     \begin{equation}
@@ -153,6 +162,8 @@
       \left[B_\eta\right]_{jn}=\int_\mathcal{A}\eta A_jA_n\dd\ohat
     \end{equation}
   \end{subequations}
+  \framebreak
+
   and finally:
   \begin{subequations}
     \begin{equation}
@@ -171,6 +182,7 @@
       \left[\Psi\right]_{ij}=\psi_{ij}
     \end{equation}
   \end{subequations}
+  \framebreak
 
   Combining these all into \cref{eq:compact-fem} gives:
   \begin{multline}
