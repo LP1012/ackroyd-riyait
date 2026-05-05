@@ -2,9 +2,10 @@ import meshio
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.tri as mtri
+from matplotlib.colors import LogNorm
 
 from scipy.sparse import lil_matrix, kron, csr_matrix
-from scipy.sparse.linalg import gmres
+from scipy.sparse.linalg import gmres, LinearOperator, spilu, bicgstab, lgmres
 
 from scipy.integrate import dblquad, quad
 
@@ -218,13 +219,6 @@ def Q(m, vertices, det_jacobian, Qs):
 def Q_integrand(eta, xi, m, vertices, det_jacobian):
     return LinearBasis(xi, eta, m) * det_jacobian
 
-
-# to do:
-# - write methods for local matrix creation
-# - write methods to evaluate boundary integrals (must always be positive)
-# - global matrix assembly
-# - material properties (total cross section, scattering cross section, source)
-# - scalar flux computation
 
 # =============================================================================
 # Read meshes
@@ -464,7 +458,7 @@ print("System size:", A_global.shape)
 # =============================================================================
 # Solve
 # =============================================================================
-psi_flat, info = gmres(A_global, b_full, atol=1e-10)
+psi_flat, info = lgmres(A_global, b_full, atol=1e-10, maxiter=5000)
 if info != 0:
     print(f"WARNING: GMRES did not converge (info={info})")
 else:
@@ -486,7 +480,7 @@ x = points[:, 0]
 y = points[:, 1]
 triang = mtri.Triangulation(x, y, triangles=triangles)
 
-plt.figure(figsize=(6, 5))
+plt.figure(figsize=(8, 6))
 tpc = plt.tricontourf(triang, phi, levels=50, cmap="magma")
 plt.colorbar(tpc, label=r"Scalar Flux $\varphi$")
 plt.triplot(triang, linewidth=0.3, color="k", alpha=0.4)
@@ -495,5 +489,22 @@ plt.xlabel("x")
 plt.ylabel("y")
 plt.axis("equal")
 plt.tight_layout()
-plt.savefig("scalar_flux.png", dpi=150)
-plt.show()
+plt.savefig("scalar_flux.png", dpi=200)
+
+plt.figure(figsize=(8, 6))
+phi_plot = np.clip(phi, a_min=1e-10, a_max=None)
+tpc = plt.tricontourf(
+    triang,
+    phi_plot,
+    levels=50,
+    cmap="magma",
+    norm=LogNorm(vmin=phi_plot.min(), vmax=phi_plot.max()),
+)
+plt.colorbar(tpc, label=r"Scalar Flux $\varphi$")
+plt.triplot(triang, linewidth=0.3, color="k", alpha=0.4)
+plt.title("Scalar Flux on Spatial Mesh Nodes")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.axis("equal")
+plt.tight_layout()
+plt.savefig("scalar_flux_log.png", dpi=200)
