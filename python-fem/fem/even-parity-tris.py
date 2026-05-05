@@ -13,11 +13,11 @@ from linear_triangles import *
 
 
 def Mu(theta, phi):
-    return np.sin(phi) * np.cos(theta)
+    return np.cos(phi)
 
 
 def Eta(theta, phi):
-    return np.sin(phi) * np.sin(theta)
+    return np.sin(phi) * np.cos(theta)
 
 
 def K_mu_mu(vertices, j, n, det_jacobian):
@@ -491,7 +491,7 @@ else:
 psi_mat = psi_flat.reshape((n_angle, n_space))
 
 # Scalar flux: phi_i = sum_j  A_j * psi_{ji}
-phi = A_vec @ psi_mat  # shape (n_space,)
+phi = 4 * A_vec @ psi_mat  # shape (n_space,)
 
 print("phi max:", np.max(phi))
 print("phi min:", np.min(phi))
