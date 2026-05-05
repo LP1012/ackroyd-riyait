@@ -1,0 +1,109 @@
+\begin{frame}
+  \frametitle{Angular Approximation}
+  The following details the angular approximation of the even-parity transport equation via spherical harmonics from \cite{lewisComputationalMethodsNeutron1993}. \\
+  In x-y geometry, the streaming term reduces to:
+  \begin{equation}
+    \vec{\Omega}\cdot\vec{\nabla}\rightarrow\mu\frac{\partial}{\partial x}+\eta\frac{\partial}{\partial y}
+  \end{equation}
+  Where $\mu$ and $\eta$ are the directional cosines of $\hat{\Omega}$ with respect to the x and y axes. \\
+  Further, $\eta$ is defined as:
+  \begin{equation}
+    \eta=\sqrt{(1-\mu^2)}\cos(\omega)
+  \end{equation}
+  According to the definition of the solid angle on the unit sphere, defined earlier. \\
+\end{frame}
+
+\begin{frame}
+  \frametitle{Angular Approximation}
+  Because there is no z-dependence in x-y geometry, we have:
+  \begin{equation}
+    \psi^+(\vec{r},\mu,\omega)=\psi^+(\vec{r},\mu,-\omega)
+  \end{equation}
+  Similarly, the even-parity restriction:
+  \begin{equation}
+    \psi^+(\vec{r},\hat{\Omega})=\psi^+(\vec{r},-\hat{\Omega})
+  \end{equation}
+  Yields the restriction:
+  \begin{equation}
+    \psi^+(\vec{r},\mu,\omega)=\psi^+(\vec{r},-\mu,\omega+\pi)
+  \end{equation}
+  Thus, any integration over the angular domain can be restricted to one quadrant of the unit sphere, namely
+  $0\leq\mu\leq1$ and $0\leq\omega\leq\pi$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Angular Approximation}
+  The azimuthal symmetry of the problem means only the even spherical harmonics $Y_{\ell m}^e(\hat{\Omega})$ are required.
+  The even spherical harmonics are given by:
+  \begin{equation}
+    Y_{\ell m}^e(\hat{\Omega})=\sqrt{C_{\ell m}}P_{\ell}^m\cos(m\omega)
+  \end{equation}
+  Where:
+  \begin{equation}
+    C_{\ell m}\equiv\frac{(2\ell+1)(\ell-m)!}{(\ell+m)!}
+  \end{equation}
+  And:
+  \begin{align}
+    P_{\ell}^m(\mu)=(-1)^m(1-\mu^2)^{m/2}\frac{d^m}{d\mu^m}P_{\ell}(\mu) \\
+    P_{\ell}(\mu)=\frac{1}{2^{\ell}\ell!}\frac{d^{\ell}}{d\mu^{\ell}}(\mu^2-1)^{\ell}
+  \end{align}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Angular Approximation}
+  With these assumptions, the even-parity flux can be represented as a sum over the spherical harmonics basis functions as:
+  \begin{equation}
+    \psi^+(\vec{r},\hat{\Omega})=\sum_{n=0}^Ng_n(\hat{\Omega})f_n(\vec{r})
+  \end{equation}
+  Where the basis functions are defined as:
+  \begin{equation}
+    g_n(\hat{\Omega})\rightarrow\lbrace Y_{00}^e(\hat{\Omega}),Y_{20}^e(\hat{\Omega}),...,Y_{22}^e(\hat(\Omega)),Y_{40}^e(\hat{\Omega}),...,Y_{44}^e(\hat{\Omega}),...\rbrace
+  \end{equation}
+  And $f_n(\vec{r})$ represents the spatial approximation (in this case, with finite elements). This summation can be represented as the scalar product:
+  \begin{equation}
+    \psi^+(\vec{r},\hat{\Omega})=\textbf{g}(\hat{\Omega})^T\textbf{f}(\vec{r})
+  \end{equation}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Angular Approximation}
+  The spherical harmonics expansion of the even-parity flux can be substituted back into the variational principle that yields
+  the even-parity transport equation to produce the following matrices:
+  \begin{align}
+    \textbf{G}_{ii'}=\int \Omega_i\textbf{g}(\hat{\Omega})\textbf{g}(\hat{\Omega})^T\Omega_{i'}d\Omega \\
+    \textbf{G}_c=\int\textbf{g}(\hat{\Omega})\textbf{g}(\hat{\Omega})^Td\Omega                         \\
+    \textbf{G}_s=\int\textbf{g}(\hat{\Omega})d\Omega\int\textbf{g}(\hat{\Omega}')^Td\Omega'            \\
+    \textbf{G}_v=\int|\hat{n}\cdot\hat{\Omega}|\textbf{g}(\hat{\Omega})\textbf{g}(\hat{\Omega})^Td\Omega
+  \end{align}
+  Where $\textbf{G}_{ii'}$ collects the expansion of the streaming term for each combination of x and y components, $\textbf{G}_c$ and $\textbf{G}_s$ both collect the expansions of the collision and scattering terms, respectively, and $\textbf{G}_v$ collects the expansion of the vacuum boundary condition. The source term is similarly expanded.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Finite Element Assembly}
+  The spatial function $\vec{f}(\vec{r})$ is represented via rectangular bilinear finite elements. This couples each spatial node via the block matrix equation:
+  \begin{align}
+    \begin{bmatrix}
+      \textbf{A}_{11} & \textbf{A}_{12} & \textbf{A}_{13} & ... & \textbf{A}_{1L} \\
+      \textbf{A}_{21} & \textbf{A}_{22} & \textbf{A}_{23} &     &                 \\
+      \vdots          &                 &                 &     & \vdots          \\
+      \textbf{A}_{L1} &                 &                 &     & \textbf{A}_{LL}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \bm\psi_1 \\
+      \bm\psi_2 \\
+      \vdots    \\
+      \bm\psi_L
+    \end{bmatrix}=
+    \begin{bmatrix}
+      \textbf{s}_1 \\
+      \textbf{s}_2 \\
+      \vdots       \\
+      \textbf{s}_L
+    \end{bmatrix}
+  \end{align}
+  Here, each block matrix represents the spherical harmonics expansion at a given node, where the nodes are still related to one another via the rectangular finite elements:
+  \begin{equation}
+    \textbf{A}_{ll'}=\sum_{ii'}\textbf{G}_{ii'}\int\frac{1}{\sigma}\frac{\partial h_l}{\partial x_i}\frac{\partial h_{l'}}{\partial x_{i'}}dA+\textbf{G}_c\int\sigma h_lh_{l'}dA+\textbf{G}_s\int\sigma_sh_lh_{l'}dA+\textbf{G}_v\int_{L_v}h_lh_{l'}dA
+  \end{equation}
+  And $\bm\psi_l$ and the source terms are similarly expanded into higher-order moments. For the even-parity transport equation, we find that the zeroth-order moments of $\psi$ represent the scalar flux, which is the quantity of interest that will be solved for.
+\end{frame}
