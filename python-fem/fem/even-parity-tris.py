@@ -260,15 +260,16 @@ Sigma_t = np.zeros(len(triangles))
 Sigma_s = np.zeros(len(triangles))
 Qs = np.zeros(len(triangles))
 
-Sigma_t[triangle_phys == 1] = 0.2
+# material = 1, void = 2, source = 3
+Sigma_t[triangle_phys == 1] = 0.8
 Sigma_t[triangle_phys == 2] = 1e-5
-Sigma_t[triangle_phys == 3] = 0.2
+Sigma_t[triangle_phys == 3] = 0.8
 
 Sigma_s[triangle_phys == 1] = 0.0
 Sigma_s[triangle_phys == 2] = 0.0
 Sigma_s[triangle_phys == 3] = 0.0
 
-Qs[triangle_phys == 3] = 6.0  # volumetric source strength
+Qs[triangle_phys == 3] = 6.4  # volumetric source strength
 
 points = spatial_mesh.points[:, :2]
 n_space = len(points)
@@ -328,7 +329,13 @@ for e, tri in enumerate(triangles):
             b_space[i_global] += q * area / 3.0
 
 # --- Boundary assembly (vacuum BC contribution) ---
+VACUUM_TAGS = {14, 15}  # west, north, east
+REFLECT_TAGS = {13, 16}  # south — reflective, no contribution
+
 for edge, tag in zip(lines, line_phys):
+    if tag in REFLECT_TAGS:
+        continue  # skip reflective edges entirely
+
     n1, n2 = edge
     p1, p2 = points[n1], points[n2]
     edge_vec = p2 - p1
@@ -481,7 +488,7 @@ y = points[:, 1]
 triang = mtri.Triangulation(x, y, triangles=triangles)
 
 plt.figure(figsize=(8, 6))
-tpc = plt.tricontourf(triang, phi, levels=50, cmap="magma")
+tpc = plt.tripcolor(triang, phi, cmap="magma", shading="gouraud")
 plt.colorbar(tpc, label=r"Scalar Flux $\varphi$")
 plt.triplot(triang, linewidth=0.3, color="k", alpha=0.4)
 plt.title("Scalar Flux on Spatial Mesh Nodes")
@@ -493,10 +500,9 @@ plt.savefig("scalar_flux.png", dpi=200)
 
 plt.figure(figsize=(8, 6))
 phi_plot = np.clip(phi, a_min=1e-10, a_max=None)
-tpc = plt.tricontourf(
+tpc = plt.tripcolor(
     triang,
     phi_plot,
-    levels=50,
     cmap="magma",
     norm=LogNorm(vmin=phi_plot.min(), vmax=phi_plot.max()),
 )
