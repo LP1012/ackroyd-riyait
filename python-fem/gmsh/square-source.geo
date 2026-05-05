@@ -11,11 +11,18 @@ BooleanFragments{Surface{1, 2, 3}; Delete;}{}
 Physical Surface("material") = {5};
 Physical Surface("void") = {4};
 Physical Surface("source") = {3};
-//+
+
+// Assign boundaries
 Physical Curve("west", 13) = {7, 3, 11};
-//+
 Physical Curve("north", 14) = {8};
-//+
 Physical Curve("east", 15) = {9};
-//+
 Physical Curve("south", 16) = {10, 6, 12};
+
+// --- Mesh sizes ---
+size_material = 0.8;
+size_void   = 0.55;
+size_source = 0.3;
+
+MeshSize{ PointsOf{ Surface{5}; } } = size_material;
+MeshSize{ PointsOf{ Surface{4}; } } = size_void;
+MeshSize{ PointsOf{ Surface{3}; } } = size_source;
