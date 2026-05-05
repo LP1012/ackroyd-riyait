@@ -69,7 +69,7 @@ def RealGradients(vertices, i):
     xi_derivative = LinearBasisXiDerivative(i)
     eta_derivative = LinearBasisEtaDerivative(i)
     reference_gradients = np.array([xi_derivative, eta_derivative])
-    real_gradients = np.linalg.solve(jacobian, reference_gradients)
+    real_gradients = np.linalg.solve(jacobian.T, reference_gradients)
     return real_gradients
 
 
@@ -78,6 +78,6 @@ def BuildBasisDxDy(vertices):
     dys = np.zeros(3)
     for i in range(3):
         gradients = RealGradients(vertices, i)
-        dxs[i] = gradients[i]
-        dys[i] = gradients[i]
+        dxs[i] = gradients[0]  # dT_i/dx
+        dys[i] = gradients[1]  # dT_i/dy
     return dxs, dys
