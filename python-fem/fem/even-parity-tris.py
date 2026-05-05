@@ -122,7 +122,7 @@ def B_mu(j, n, vertices, det_jacobian):
 
 def B_mu_integrand(eta, xi, j, n, vertices, det_jacobian):
     theta, phi = ReferenceToReal(vertices, xi, eta)
-    mu = Mu(theta, phi)
+    mu = abs(Mu(theta, phi))
     return (
         mu
         * LinearBasis(xi, eta, j)
@@ -146,7 +146,7 @@ def B_eta(j, n, vertices, det_jacobian):
 
 def B_eta_integrand(eta, xi, j, n, vertices, det_jacobian):
     theta, phi = ReferenceToReal(vertices, xi, eta)
-    y_cosine = Eta(theta, phi)
+    y_cosine = abs(Eta(theta, phi))
     return (
         y_cosine
         * LinearBasis(xi, eta, j)
@@ -250,11 +250,6 @@ north_edges = lines[line_phys == 14]
 east_edges = lines[line_phys == 15]
 south_edges = lines[line_phys == 16]
 
-print("Triangles:", len(triangles))
-print("Lines:", len(lines))
-print("Unique triangle regions:", np.unique(triangle_phys))
-print("Unique boundary tags:", np.unique(line_phys))
-
 # --- Material properties (per element) ---
 Sigma_t = np.zeros(len(triangles))
 Sigma_s = np.zeros(len(triangles))
@@ -269,7 +264,10 @@ Sigma_s[triangle_phys == 1] = 0.0
 Sigma_s[triangle_phys == 2] = 0.0
 Sigma_s[triangle_phys == 3] = 0.0
 
-Qs[triangle_phys == 3] = 6.4  # volumetric source strength
+# volumetric source strengths
+Qs[triangle_phys == 1] = 0
+Qs[triangle_phys == 2] = 0
+Qs[triangle_phys == 3] = 6.4
 
 points = spatial_mesh.points[:, :2]
 n_space = len(points)
@@ -327,31 +325,49 @@ for e, tri in enumerate(triangles):
     if q != 0.0:
         for i_local, i_global in enumerate(tri):
             b_space[i_global] += q * area / 3.0
+# compute mesh centroid once, before the loop
+mesh_centroid = points.mean(axis=0)
 
 # --- Boundary assembly (vacuum BC contribution) ---
-VACUUM_TAGS = {14, 15}  # west, north, east
-REFLECT_TAGS = {13, 16}  # south — reflective, no contribution
+VACUUM_TAGS = {14, 15}
+REFLECT_TAGS = {13, 16}
+
+print("=== Boundary normal diagnostics ===")
+for edge, tag in zip(lines, line_phys):
+    n1, n2 = edge
+    p1, p2 = points[n1], points[n2]
+    edge_vec = p2 - p1
+    edge_mid = 0.5 * (p1 + p2)
+    normal = np.array([edge_vec[1], -edge_vec[0]])
+    normal = normal / np.linalg.norm(normal)
+    print(f"tag={tag}  mid={edge_mid}  normal={normal}")
 
 for edge, tag in zip(lines, line_phys):
     if tag in REFLECT_TAGS:
-        continue  # skip reflective edges entirely
+        continue
 
     n1, n2 = edge
     p1, p2 = points[n1], points[n2]
     edge_vec = p2 - p1
     length = np.linalg.norm(edge_vec)
 
-    # outward normal: rotate edge vector 90 degrees clockwise
+    # both candidate normals
     normal = np.array([edge_vec[1], -edge_vec[0]])
     normal = normal / np.linalg.norm(normal)
+
+    # ensure normal points AWAY from the mesh centroid
+    edge_mid = 0.5 * (p1 + p2)
+    if np.dot(normal, edge_mid - mesh_centroid) < 0:
+        normal = -normal
+
     nx, ny = normal
 
     B_edge = (length / 6.0) * np.array([[2, 1], [1, 2]])
     nodes = [n1, n2]
     for i_local, i_global in enumerate(nodes):
         for m_local, m_global in enumerate(nodes):
-            B_x_global[i_global, m_global] += B_edge[i_local, m_local] * nx
-            B_y_global[i_global, m_global] += B_edge[i_local, m_local] * ny
+            B_x_global[i_global, m_global] += B_edge[i_local, m_local] * abs(nx)
+            B_y_global[i_global, m_global] += B_edge[i_local, m_local] * abs(ny)
 
 # Convert to CSR
 M_global = M_global.tocsr()
@@ -465,7 +481,7 @@ print("System size:", A_global.shape)
 # =============================================================================
 # Solve
 # =============================================================================
-psi_flat, info = lgmres(A_global, b_full, atol=1e-10, maxiter=5000)
+psi_flat, info = lgmres(A_global, b_full, atol=1e-10, maxiter=10000)
 if info != 0:
     print(f"WARNING: GMRES did not converge (info={info})")
 else:
