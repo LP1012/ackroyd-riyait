@@ -1,15 +1,10 @@
+\begin{frame}
+  \frametitle{Problem Descriptions}
+  The results slides will solve the same benchmarks with the same discretizations as the original discrete-ordinates methods to demonstrate the removal of the ray effect via spherical harmonics. \\
 
+  As a reminder, the ray effect is
+\end{frame}
 
 \begin{frame}
-  \frametitle{TL;DR Simplification of the \gls{bte}}
-  By inserting const-value properties, noting the division of $4\pi$ for the scattering cross section to keep units consistent, we are left with:
-  \begin{equation} \label{eq:fully-simplified-bte}
-    \ohat \cdot \grad \psisimple + \Sigma_t \left(\rvec\right)\psisimple =\underbrace{\frac{\Sigma_s\left(\rvec\right)}{4\pi}\phi\left(\rvec\right) + \frac{Q\left(\rvec\right)}{4\pi}}_{\equiv S\left(\rvec\right)}
-  \end{equation}
-  where:
-  \begin{equation}
-    \label{eq:scalar-flux}
-    \phi\left(\rvec\right)\equiv \int_{4\pi}\psi \left(\rvec,\ohat\right) \dd \ohat
-  \end{equation}
-  \Cref{eq:scalar-flux} is know as the \textit{angle-integrated} (or \textit{scalar}) \textit{flux}.
+  \frametitle{\glspl{arp1} Absorbing Medium Results}
 \end{frame}
